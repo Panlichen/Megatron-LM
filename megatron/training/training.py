@@ -230,6 +230,12 @@ def pretrain(
     )
 
     args = get_args()
+
+    print_rank_0(f"Parameters: type(args): {type(args)}")
+    for key, value in vars(args).items():
+        print_rank_0(f"{key}: {value}")
+    print_rank_0(f"Parameters Done")
+
     timers = get_timers()
 
     if args.log_progress:
@@ -280,6 +286,8 @@ def pretrain(
     app_metrics['app_build_dataiters_start_time'] = one_logger_utils.get_timestamp_in_ms()
     timers('train/valid/test-data-iterators-setup', log_level=0).start(
         barrier=True)
+    
+    # virtual_pipeline_model_parallel_size: None
     if args.virtual_pipeline_model_parallel_size is not None:
         train_data_iterator = []
         valid_data_iterator = []
@@ -307,6 +315,7 @@ def pretrain(
     # Context used for persisting some state between checkpoint saves.
     checkpointing_context = {}
 
+    # enable_ft_package: False
     if args.enable_ft_package and ft_integration.get_rank_monitor_client() is not None:
         ft_integration.get_rank_monitor_client().init_workload_monitoring()
         ft_timeouts = ft_integration.get_rank_monitor_client().timeouts
@@ -323,6 +332,7 @@ def pretrain(
     if not args.skip_train:
         print_rank_0('training ...')
 
+        # dataloader_type: single
         if args.dataloader_type == 'cyclic' and args.retro_project_dir:
             assert args.retro_cyclic_train_iters is not None
             args.train_iters = args.retro_cyclic_train_iters
@@ -665,6 +675,7 @@ def train_step(forward_step_func, data_iterator,
         torch.cuda.empty_cache()
 
     # Vision gradients.
+    # vision_pretraining_type: classify
     if getattr(args, 'vision_pretraining', False) and args.vision_pretraining_type == "dino":
         unwrapped_model = unwrap_model(model[0])
         unwrapped_model.cancel_gradients_last_layer(args.curr_iteration)
@@ -1063,6 +1074,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
     # Setup some training config params
     config.grad_scale_func = optimizer.scale_loss
     config.timers = timers
+    # overlap_grad_reduce: False
     if isinstance(model[0], DDP) and args.overlap_grad_reduce:
         assert config.no_sync_func is None, \
             ('When overlap_grad_reduce is True, config.no_sync_func must be None; '
@@ -1074,6 +1086,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
             config.grad_sync_func = [model_chunk.start_grad_sync for model_chunk in model]
             if len(model) == 1:
                 config.grad_sync_func = config.grad_sync_func[0]
+    # overlap_param_gather: False
     if args.overlap_param_gather and args.align_param_gather:
         config.param_sync_func = [functools.partial(optimizer.start_param_sync, model_index)
                                   for model_index in range(len(model))]
@@ -1086,6 +1099,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
     report_memory_flag = True
     exit = False
 
+    # manual_gc: False
     if args.manual_gc:
         # Disable the default garbage collector and perform the collection manually.
         # This is to align the timing of garbage collection across ranks.
@@ -1095,6 +1109,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
         gc.collect()
 
     # Singleton Initialization
+    # log_straggler: False
     if args.log_straggler:
         global stimer
         world = torch.distributed.get_world_size()
@@ -1130,6 +1145,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
             one_logger.store_set('get_e2e_base_metrics', get_e2e_base_metrics)
 
     while iteration < args.train_iters:
+        # profile: False
         if args.profile and \
            iteration == args.profile_step_start and \
            torch.distributed.get_rank() in args.profile_ranks:
@@ -1179,6 +1195,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
         total_flops += num_fp_ops
 
         # Send heartbeat to FT package and update timeouts.
+        # enable_ft_package: False
         if args.enable_ft_package:
             ft_client = ft_integration.get_rank_monitor_client(
                 ft_integration.StateMachineActions.TRAIN_HEARTBEAT)
@@ -1194,6 +1211,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
                         {ft_integration.get_rank_monitor_client().timeouts}')
 
         # Bring CPU and GPU back in sync if on right iteration.
+        # train_sync_interval: None
         if (
             args.train_sync_interval
             and iteration % args.train_sync_interval == 0

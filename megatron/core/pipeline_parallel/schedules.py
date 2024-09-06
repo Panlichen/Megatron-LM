@@ -100,6 +100,72 @@ def get_forward_backward_func():
         step.
 
     """
+    """根据parallel_state的配置检索适当的forward_backward函数。
+
+    返回一个函数，该函数将根据pipeline模型并行世界大小和虚拟pipeline模型并行世界大小，
+    在全局parallel_state中执行模型的所有前向和后向传递。
+
+    请注意，如果使用序列并行，张量形状的序列长度组件将更新为
+    original_sequence_length / tensor_model_parallel_world_size。
+
+    返回的函数接受以下参数：
+
+    forward_step_func（必需）：一个函数，该函数接受数据迭代器和模型作为参数，
+        并返回模型的前向输出和损失函数。损失函数应接受一个torch.Tensor并
+        返回一个损失的torch.Tensor和一个从字符串到torch.Tensor的字典。
+
+        第三个参数checkpoint_activations_microbatch表示此微批次的激活
+        应该被检查点保存。此参数为None值表示应使用配置中的默认值。
+        当使用num_microbatches_with_partial_activation_checkpoints时，这
+        将被使用。
+
+        例如：
+
+        def loss_func(loss_mask, output_tensor):
+            losses = output_tensor.float()
+            loss_mask = loss_mask.view(-1).float()
+            loss = torch.sum(losses.view(-1) * loss_mask) / loss_mask.sum()
+
+            # 减少损失以进行日志记录。
+            averaged_loss = average_losses_across_data_parallel_group([loss])
+
+            return loss, {'lm loss': averaged_loss[0]}
+
+        def forward_step(data_iterator, model):
+            data, loss_mask = next(data_iterator)
+            output = model(data)
+            return output, partial(loss_func, loss_mask)  # partial的作用是, 对一个函数返回一个"参数更少的版本", 固定一部分参数, 返回的函数可以接受剩余的参数.
+
+
+        forward_backward_func(forward_step_func=forward_step, ...)
+
+
+    data_iterator（必需）：一个数据迭代器，将原样传递给forward_step_func。
+        在交错pipeline并行的情况下，预计它是一个迭代器列表。
+
+    model（必需）：实际的模型。在交错pipeline并行的情况下，预计它是一个模块列表。
+        必须是一个（可能被包装的）megatron.core.models.MegatronModule。
+
+    num_microbatches (int, 必需):
+        需要处理的微批次数量
+
+    seq_length (int, 必需): 当前全局批次的序列长度。如果这是一个双堆栈
+        transformer，这是编码器的序列长度。如果config中的variable_seq_lengths
+        为True，则忽略此值。否则，当前全局批次中的每个微批次必须使用该序列长度。
+
+    micro_batch_size (int, 必需): 微批次中的序列数量。
+
+    decoder_seq_length (int, 可选): 双堆栈transformer中解码器的序列长度。
+        对于单堆栈transformer，将忽略此值。
+
+    forward_only (可选, 默认为 False): 仅执行前向步骤
+
+    collect_non_loss_data (可选, bool, 默认为False): TODO
+
+    first_val_step (bool, 可选): 是否为验证阶段的第一步。Transformer Engine模块
+        使用此参数仅在第一次验证步骤时更新其fp8权重。
+
+    """
     pipeline_model_parallel_size = parallel_state.get_pipeline_model_parallel_world_size()
     if pipeline_model_parallel_size > 1:
         if parallel_state.get_virtual_pipeline_model_parallel_world_size() is not None:
@@ -108,6 +174,10 @@ def get_forward_backward_func():
             forward_backward_func = forward_backward_pipelining_without_interleaving
     else:
         forward_backward_func = forward_backward_no_pipelining
+
+    # forward_backward_func is forward_backward_no_pipelining
+    print(f"forward_backward_func is {forward_backward_func.__name__}")
+
     return forward_backward_func
 
 
