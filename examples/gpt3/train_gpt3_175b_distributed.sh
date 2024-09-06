@@ -25,18 +25,36 @@ DISTRIBUTED_ARGS=(
     --master_port $MASTER_PORT
 )
 
+# GPT_MODEL_ARGS=(
+#     --num-layers 96 
+#     --hidden-size 12288 
+#     --num-attention-heads 96 
+#     --seq-length 2048 
+#     --max-position-embeddings 2048 
+# )
+
+# MODEL_PARALLEL_ARGS=(
+# 	--tensor-model-parallel-size 8 
+# 	--pipeline-model-parallel-size 16 
+# )
+
 GPT_MODEL_ARGS=(
-    --num-layers 96 
-    --hidden-size 12288 
-    --num-attention-heads 96 
-    --seq-length 2048 
+    --num-layers 12 
+    --hidden-size 512 
+    --num-attention-heads 8 
+    --seq-length 1024 
     --max-position-embeddings 2048 
+)
+
+MODEL_PARALLEL_ARGS=(
+	--tensor-model-parallel-size 1 
+	--pipeline-model-parallel-size 1
 )
 
 TRAINING_ARGS=(
     --micro-batch-size 1 
     --global-batch-size 1536 
-    --rampup-batch-size 16 16 5859375 
+    # --rampup-batch-size 16 16 5859375 
     --train-iters 500000 
     --weight-decay 0.1 
     --adam-beta1 0.9 
@@ -49,11 +67,6 @@ TRAINING_ARGS=(
     --min-lr 6.0e-6
     --lr-warmup-fraction .001 
     --lr-decay-iters 430000 
-)
-
-MODEL_PARALLEL_ARGS=(
-	--tensor-model-parallel-size 8 
-	--pipeline-model-parallel-size 16 
 )
 
 DATA_ARGS=(
