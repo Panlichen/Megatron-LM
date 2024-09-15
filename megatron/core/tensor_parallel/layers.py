@@ -714,46 +714,46 @@ class ColumnParallelLinear(torch.nn.Module):
         tp_comm_buffer_name: str = None,  # Not used
         disable_grad_reduce: bool = False,
     ):
-        super(ColumnParallelLinear, self).__init__()
+        super(ColumnParallelLinear, self).__init__()  # 调用父类的初始化方法
 
         # Keep input parameters
-        self.input_size = input_size
-        self.output_size = output_size
-        self.gather_output = gather_output
+        self.input_size = input_size  # 保存输入大小
+        self.output_size = output_size  # 保存输出大小
+        self.gather_output = gather_output  # 是否收集输出
         # Divide the weight matrix along the last dimension.
-        self.skip_bias_add = skip_bias_add
-        self.is_expert = is_expert
-        self.expert_parallel = config.expert_model_parallel_size > 1
-        self.embedding_activation_buffer = embedding_activation_buffer
-        self.grad_output_buffer = grad_output_buffer
-        self.config = config
-        self.disable_grad_reduce = disable_grad_reduce
+        self.skip_bias_add = skip_bias_add  # 是否跳过偏置加法
+        self.is_expert = is_expert  # 是否为专家层
+        self.expert_parallel = config.expert_model_parallel_size > 1  # 是否使用专家并行
+        self.embedding_activation_buffer = embedding_activation_buffer  # 嵌入激活缓冲区
+        self.grad_output_buffer = grad_output_buffer  # 梯度输出缓冲区
+        self.config = config  # 配置对象
+        self.disable_grad_reduce = disable_grad_reduce  # 是否禁用梯度归约
 
-        self.explicit_expert_comm = self.is_expert and (
+        self.explicit_expert_comm = self.is_expert and (  # 是否需要显式专家通信
             config.tensor_model_parallel_size > 1 or self.expert_parallel
         )
-        if self.explicit_expert_comm and config.moe_extended_tp:
-            world_size = get_tensor_and_expert_parallel_world_size()
-            rank = get_tensor_and_expert_parallel_rank()
+        if self.explicit_expert_comm and config.moe_extended_tp:  # 如果需要显式专家通信且使用扩展张量并行
+            world_size = get_tensor_and_expert_parallel_world_size()  # 获取张量和专家并行的世界大小
+            rank = get_tensor_and_expert_parallel_rank()  # 获取张量和专家并行的排名
         else:
-            world_size = get_tensor_model_parallel_world_size()
-            rank = get_tensor_model_parallel_rank()
+            world_size = get_tensor_model_parallel_world_size()  # 获取张量模型并行的世界大小
+            rank = get_tensor_model_parallel_rank()  # 获取张量模型并行的排名
 
-        self.output_size_per_partition = divide(output_size, world_size)
+        self.output_size_per_partition = divide(output_size, world_size)  # 计算每个分区的输出大小
 
         # Parameters.
         # Note: torch.nn.functional.linear performs XA^T + b and as a result
         # we allocate the transpose.
         # Initialize weight.
-        if not skip_weight_param_allocation:
-            if config.use_cpu_initialization:
-                self.weight = Parameter(
+        if not skip_weight_param_allocation:  # 如果不跳过权重参数分配
+            if config.use_cpu_initialization:  # 如果使用CPU初始化
+                self.weight = Parameter(  # 创建权重参数
                     torch.empty(
                         self.output_size_per_partition, self.input_size, dtype=config.params_dtype
                     )
                 )
-                if config.perform_initialization:
-                    self.master_weight = _initialize_affine_weight_cpu(
+                if config.perform_initialization:  # 如果执行初始化
+                    self.master_weight = _initialize_affine_weight_cpu(  # 初始化CPU上的仿射权重
                         self.weight,
                         self.output_size,
                         self.input_size,
@@ -766,7 +766,7 @@ class ColumnParallelLinear(torch.nn.Module):
                         world_size=world_size,
                     )
             else:
-                self.weight = Parameter(
+                self.weight = Parameter(  # 创建GPU上的权重参数
                     torch.empty(
                         self.output_size_per_partition,
                         self.input_size,
@@ -774,8 +774,8 @@ class ColumnParallelLinear(torch.nn.Module):
                         dtype=config.params_dtype,
                     )
                 )
-                if config.perform_initialization:
-                    _initialize_affine_weight_gpu(
+                if config.perform_initialization:  # 如果执行初始化
+                    _initialize_affine_weight_gpu(  # 初始化GPU上的仿射权重
                         self.weight,
                         init_method,
                         partition_dim=0,
@@ -783,46 +783,46 @@ class ColumnParallelLinear(torch.nn.Module):
                         expert_parallel=(self.is_expert and self.expert_parallel),
                     )
 
-            setattr(self.weight, 'allreduce', not (self.is_expert and self.expert_parallel))
+            setattr(self.weight, 'allreduce', not (self.is_expert and self.expert_parallel))  # 设置权重的allreduce属性
         else:
-            self.weight = None
+            self.weight = None  # 如果跳过权重参数分配，则权重为None
 
-        if bias:
-            if config.use_cpu_initialization:
-                self.bias = Parameter(
+        if bias:  # 如果使用偏置
+            if config.use_cpu_initialization:  # 如果使用CPU初始化
+                self.bias = Parameter(  # 创建CPU上的偏置参数
                     torch.empty(self.output_size_per_partition, dtype=config.params_dtype)
                 )
             else:
-                self.bias = Parameter(
+                self.bias = Parameter(  # 创建GPU上的偏置参数
                     torch.empty(
                         self.output_size_per_partition,
                         device=torch.cuda.current_device(),
                         dtype=config.params_dtype,
                     )
                 )
-            set_tensor_model_parallel_attributes(self.bias, True, 0, stride)
-            if config.perform_initialization:
+            set_tensor_model_parallel_attributes(self.bias, True, 0, stride)  # 设置偏置的张量模型并行属性
+            if config.perform_initialization:  # 如果执行初始化
                 # Always initialize bias to zero.
                 with torch.no_grad():
-                    self.bias.zero_()
-            setattr(self.bias, 'allreduce', not (self.is_expert and self.expert_parallel))
+                    self.bias.zero_()  # 将偏置初始化为零
+            setattr(self.bias, 'allreduce', not (self.is_expert and self.expert_parallel))  # 设置偏置的allreduce属性
         else:
-            self.register_parameter('bias', None)
+            self.register_parameter('bias', None)  # 如果不使用偏置，注册None作为偏置参数
 
-        self.sequence_parallel = config.sequence_parallel
-        if self.sequence_parallel and world_size <= 1:
-            warnings.warn(
+        self.sequence_parallel = config.sequence_parallel  # 是否使用序列并行
+        if self.sequence_parallel and world_size <= 1:  # 如果使用序列并行但世界大小小于等于1
+            warnings.warn(  # 发出警告
                 "`sequence_parallel` is set to `True`, but tensor model parallel size "
                 f"is {world_size}. Disabling sequence parallel."
             )
-            self.sequence_parallel = False
+            self.sequence_parallel = False  # 禁用序列并行
 
-        self.allreduce_dgrad = (
+        self.allreduce_dgrad = (  # 是否执行梯度的allreduce操作
             world_size > 1 and not self.sequence_parallel and not self.disable_grad_reduce
         )
 
-        if config.gradient_accumulation_fusion and not _grad_accum_fusion_available:
-            raise RuntimeError(
+        if config.gradient_accumulation_fusion and not _grad_accum_fusion_available:  # 如果启用梯度累积融合但不可用
+            raise RuntimeError(  # 抛出运行时错误
                 "ColumnParallelLinear was called with gradient_accumulation_fusion set "
                 "to True but the custom CUDA extension fused_weight_gradient_mlp_cuda "
                 "module is not found. To use gradient_accumulation_fusion you must "
@@ -831,17 +831,17 @@ class ColumnParallelLinear(torch.nn.Module):
                 "Note that the extension requires CUDA>=11. Otherwise, you must turn off "
                 "gradient accumulation fusion."
             )
-        self.gradient_accumulation_fusion = config.gradient_accumulation_fusion
+        self.gradient_accumulation_fusion = config.gradient_accumulation_fusion  # 是否使用梯度累积融合
 
-        if self.allreduce_dgrad and self.sequence_parallel:
-            raise RuntimeError(
+        if self.allreduce_dgrad and self.sequence_parallel:  # 如果同时启用allreduce_dgrad和sequence_parallel
+            raise RuntimeError(  # 抛出运行时错误
                 "`allreduce_dgrad` and `sequence_parallel` cannot be enabled at the same time."
             )
 
-        self._forward_impl = linear_with_grad_accumulation_and_async_allreduce
+        self._forward_impl = linear_with_grad_accumulation_and_async_allreduce  # 设置前向传播实现函数
 
         # Hook adding a default empty _extra_state for state dict
-        self._register_load_state_dict_pre_hook(
+        self._register_load_state_dict_pre_hook(  # 注册加载状态字典的预处理钩子
             lambda state_dict, prefix, *args, **kwargs: state_dict.setdefault(
                 f'{prefix}_extra_state'
             )
@@ -861,56 +861,56 @@ class ColumnParallelLinear(torch.nn.Module):
             - bias
 
         """
-        if weight is None:
-            if self.weight is None:
-                raise RuntimeError(
+        if weight is None:  # 如果没有提供权重
+            if self.weight is None:  # 如果模块的权重也为None
+                raise RuntimeError(  # 抛出运行时错误
                     "weight was not supplied to ColumnParallelLinear forward pass "
                     "and skip_weight_param_allocation is True."
                 )
-            weight = self.weight
+            weight = self.weight  # 使用模块的权重
         else:
             # Check the weight passed in is the correct shape
-            expected_shape = (self.output_size_per_partition, self.input_size)
-            if weight.shape != expected_shape:
-                raise RuntimeError(
+            expected_shape = (self.output_size_per_partition, self.input_size)  # 期望的权重形状
+            if weight.shape != expected_shape:  # 如果提供的权重形状不正确
+                raise RuntimeError(  # 抛出运行时错误
                     f"supplied weight's shape is {tuple(weight.shape)}, "
                     f"not {expected_shape} as expected"
                 )
 
-        if self.config._cpu_offloading_context is not None:
-            if self.config._cpu_offloading_context.inside_context is True:
-                assert (
+        if self.config._cpu_offloading_context is not None:  # 如果存在CPU卸载上下文
+            if self.config._cpu_offloading_context.inside_context is True:  # 如果在上下文内部
+                assert (  # 断言CPU卸载未启用
                     self.config.cpu_offloading is False
                 ), "CPU Offloading cannot be enabled while using non-TE modules"
 
-        bias = self.bias if not self.skip_bias_add else None
+        bias = self.bias if not self.skip_bias_add else None  # 确定是否使用偏置
 
-        if (
+        if (  # 如果满足以下任一条件
             self.allreduce_dgrad
             or self.sequence_parallel
             or self.explicit_expert_comm
             or self.disable_grad_reduce
         ):
-            input_parallel = input_
+            input_parallel = input_  # 直接使用输入
         else:
-            input_parallel = copy_to_tensor_model_parallel_region(input_)
+            input_parallel = copy_to_tensor_model_parallel_region(input_)  # 复制输入到张量模型并行区域
 
-        if self.config.defer_embedding_wgrad_compute:
+        if self.config.defer_embedding_wgrad_compute:  # 如果延迟嵌入权重梯度计算
             if (
                 self.config.wgrad_deferral_limit == 0
                 or len(self.embedding_activation_buffer) < self.config.wgrad_deferral_limit
             ):
-                self.embedding_activation_buffer.append(input_parallel)
+                self.embedding_activation_buffer.append(input_parallel)  # 将输入添加到嵌入激活缓冲区
 
         # Matrix multiply.
-        if not weight.requires_grad:
-            self._forward_impl = linear_with_frozen_weight
+        if not weight.requires_grad:  # 如果权重不需要梯度
+            self._forward_impl = linear_with_frozen_weight  # 使用冻结权重的线性前向实现
         else:
-            self._forward_impl = linear_with_grad_accumulation_and_async_allreduce
+            self._forward_impl = linear_with_grad_accumulation_and_async_allreduce  # 使用梯度累积和异步allreduce的线性前向实现
 
-        allreduce_dgrad = False if self.explicit_expert_comm else self.allreduce_dgrad
+        allreduce_dgrad = False if self.explicit_expert_comm else self.allreduce_dgrad  # 确定是否执行梯度的allreduce
 
-        output_parallel = self._forward_impl(
+        output_parallel = self._forward_impl(  # 执行前向传播
             input=input_parallel,
             weight=weight,
             bias=bias,
@@ -927,14 +927,14 @@ class ColumnParallelLinear(torch.nn.Module):
             ),
             allreduce_dgrad=allreduce_dgrad,
         )
-        if self.gather_output:
+        if self.gather_output:  # 如果需要收集输出
             # All-gather across the partitions.
-            assert not self.sequence_parallel
-            output = gather_from_tensor_model_parallel_region(output_parallel)
+            assert not self.sequence_parallel  # 断言不使用序列并行
+            output = gather_from_tensor_model_parallel_region(output_parallel)  # 从张量模型并行区域收集输出
         else:
-            output = output_parallel
-        output_bias = self.bias if self.skip_bias_add else None
-        return output, output_bias
+            output = output_parallel  # 直接使用并行输出
+        output_bias = self.bias if self.skip_bias_add else None  # 确定是否返回偏置
+        return output, output_bias  # 返回输出和偏置
 
     def sharded_state_dict(self, prefix='', sharded_offsets=(), metadata=None):
         """Sharding along axis 0, bias sharded"""
@@ -1002,47 +1002,47 @@ class RowParallelLinear(torch.nn.Module):
         is_expert: bool = False,
         tp_comm_buffer_name: str = None,  # Not used
     ):
-        super(RowParallelLinear, self).__init__()
+        super(RowParallelLinear, self).__init__()  # 调用父类的初始化方法
 
         # Keep input parameters
-        self.input_size = input_size
-        self.output_size = output_size
-        self.input_is_parallel = input_is_parallel
-        self.skip_bias_add = skip_bias_add
-        self.config = config
-        self.is_expert = is_expert
-        self.expert_parallel = config.expert_model_parallel_size > 1
-        self.gradient_accumulation_fusion = config.gradient_accumulation_fusion
-        self.sequence_parallel = config.sequence_parallel
-        if self.sequence_parallel and not self.input_is_parallel:
-            raise RuntimeError("To enable `sequence_parallel`, `input_is_parallel` must be `True`")
+        self.input_size = input_size  # 存储输入大小
+        self.output_size = output_size  # 存储输出大小
+        self.input_is_parallel = input_is_parallel  # 存储输入是否已并行
+        self.skip_bias_add = skip_bias_add  # 存储是否跳过偏置添加
+        self.config = config  # 存储配置对象
+        self.is_expert = is_expert  # 存储是否为专家层
+        self.expert_parallel = config.expert_model_parallel_size > 1  # 判断是否使用专家并行
+        self.gradient_accumulation_fusion = config.gradient_accumulation_fusion  # 存储是否使用梯度累积融合
+        self.sequence_parallel = config.sequence_parallel  # 存储是否使用序列并行
+        if self.sequence_parallel and not self.input_is_parallel:  # 检查序列并行和输入并行的一致性
+            raise RuntimeError("To enable `sequence_parallel`, `input_is_parallel` must be `True`")  # 如果不一致，抛出运行时错误
 
-        self.explicit_expert_comm = self.is_expert and (
+        self.explicit_expert_comm = self.is_expert and (  # 判断是否需要显式专家通信
             config.tensor_model_parallel_size > 1 or self.expert_parallel
         )
 
         # Divide the weight matrix along the last dimension.
-        if self.explicit_expert_comm and config.moe_extended_tp:
-            world_size = get_tensor_and_expert_parallel_world_size()
-            rank = get_tensor_and_expert_parallel_rank()
+        if self.explicit_expert_comm and config.moe_extended_tp:  # 如果需要显式专家通信且使用扩展张量并行
+            world_size = get_tensor_and_expert_parallel_world_size()  # 获取张量和专家并行的世界大小
+            rank = get_tensor_and_expert_parallel_rank()  # 获取张量和专家并行的排名
         else:
-            world_size = get_tensor_model_parallel_world_size()
-            rank = get_tensor_model_parallel_rank()
+            world_size = get_tensor_model_parallel_world_size()  # 获取张量模型并行的世界大小
+            rank = get_tensor_model_parallel_rank()  # 获取张量模型并行的排名
 
-        self.input_size_per_partition = divide(input_size, world_size)
+        self.input_size_per_partition = divide(input_size, world_size)  # 计算每个分区的输入大小
 
         # Parameters.
         # Note: torch.nn.functional.linear performs XA^T + b and as a result
         # we allocate the transpose.
         # Initialize weight.
-        if config.use_cpu_initialization:
-            self.weight = Parameter(
+        if config.use_cpu_initialization:  # 如果使用CPU初始化
+            self.weight = Parameter(  # 创建权重参数
                 torch.empty(
                     self.output_size, self.input_size_per_partition, dtype=config.params_dtype
                 )
             )
-            if config.perform_initialization:
-                self.master_weight = _initialize_affine_weight_cpu(
+            if config.perform_initialization:  # 如果执行初始化
+                self.master_weight = _initialize_affine_weight_cpu(  # 初始化CPU上的仿射权重
                     self.weight,
                     self.output_size,
                     self.input_size,
@@ -1056,7 +1056,7 @@ class RowParallelLinear(torch.nn.Module):
                     world_size=world_size,
                 )
         else:
-            self.weight = Parameter(
+            self.weight = Parameter(  # 创建权重参数
                 torch.empty(
                     self.output_size,
                     self.input_size_per_partition,
@@ -1064,21 +1064,21 @@ class RowParallelLinear(torch.nn.Module):
                     dtype=config.params_dtype,
                 )
             )
-            if config.perform_initialization:
-                _initialize_affine_weight_gpu(
+            if config.perform_initialization:  # 如果执行初始化
+                _initialize_affine_weight_gpu(  # 初始化GPU上的仿射权重
                     self.weight,
                     init_method,
                     partition_dim=1,
                     stride=stride,
                     expert_parallel=(self.is_expert and self.expert_parallel),
                 )
-        setattr(self.weight, 'allreduce', not (self.is_expert and self.expert_parallel))
+        setattr(self.weight, 'allreduce', not (self.is_expert and self.expert_parallel))  # 设置权重的allreduce属性
 
-        if bias:
-            if config.use_cpu_initialization:
-                self.bias = Parameter(torch.empty(self.output_size, dtype=config.params_dtype))
+        if bias:  # 如果使用偏置
+            if config.use_cpu_initialization:  # 如果使用CPU初始化
+                self.bias = Parameter(torch.empty(self.output_size, dtype=config.params_dtype))  # 创建偏置参数
             else:
-                self.bias = Parameter(
+                self.bias = Parameter(  # 创建偏置参数
                     torch.empty(
                         self.output_size,
                         device=torch.cuda.current_device(),
@@ -1086,19 +1086,19 @@ class RowParallelLinear(torch.nn.Module):
                     )
                 )
 
-            if config.perform_initialization:
+            if config.perform_initialization:  # 如果执行初始化
                 # Always initialize bias to zero.
-                with torch.no_grad():
-                    self.bias.zero_()
-            setattr(self.bias, 'allreduce', not (self.is_expert and self.expert_parallel))
-            setattr(self.bias, 'sequence_parallel', self.sequence_parallel)
+                with torch.no_grad():  # 禁用梯度计算
+                    self.bias.zero_()  # 将偏置初始化为零
+            setattr(self.bias, 'allreduce', not (self.is_expert and self.expert_parallel))  # 设置偏置的allreduce属性
+            setattr(self.bias, 'sequence_parallel', self.sequence_parallel)  # 设置偏置的sequence_parallel属性
         else:
-            self.register_parameter('bias', None)
+            self.register_parameter('bias', None)  # 注册空的偏置参数
 
-        self._forward_impl = linear_with_grad_accumulation_and_async_allreduce
+        self._forward_impl = linear_with_grad_accumulation_and_async_allreduce  # 设置前向实现方法
 
         # Hook adding a default empty _extra_state for state dict
-        self._register_load_state_dict_pre_hook(
+        self._register_load_state_dict_pre_hook(  # 注册加载状态字典的预钩子
             lambda state_dict, prefix, *args, **kwargs: state_dict.setdefault(
                 f'{prefix}_extra_state'
             )
@@ -1115,27 +1115,27 @@ class RowParallelLinear(torch.nn.Module):
             - bias
         """
 
-        if self.config._cpu_offloading_context is not None:
-            if self.config._cpu_offloading_context.inside_context is True:
-                assert (
+        if self.config._cpu_offloading_context is not None:  # 如果存在CPU卸载上下文
+            if self.config._cpu_offloading_context.inside_context is True:  # 如果在上下文内部
+                assert (  # 断言CPU卸载未启用
                     self.config.cpu_offloading is False
                 ), "CPU Offloading cannot be enabled while using non-TE modules"
 
         # Set up backprop all-reduce.
-        if self.input_is_parallel:
-            input_parallel = input_
+        if self.input_is_parallel:  # 如果输入已经并行
+            input_parallel = input_  # 直接使用输入
         else:
-            assert not self.sequence_parallel
-            input_parallel = scatter_to_tensor_model_parallel_region(input_)
+            assert not self.sequence_parallel  # 断言不使用序列并行
+            input_parallel = scatter_to_tensor_model_parallel_region(input_)  # 将输入分散到张量模型并行区域
         # Matrix multiply.
-        if not self.weight.requires_grad:
-            self._forward_impl = linear_with_frozen_weight
+        if not self.weight.requires_grad:  # 如果权重不需要梯度
+            self._forward_impl = linear_with_frozen_weight  # 使用冻结权重的线性前向实现
         else:
-            self._forward_impl = linear_with_grad_accumulation_and_async_allreduce
+            self._forward_impl = linear_with_grad_accumulation_and_async_allreduce  # 使用梯度累积和异步allreduce的线性前向实现
 
-        allreduce_dgrad = False
+        allreduce_dgrad = False  # 设置不执行梯度的allreduce
 
-        output_parallel = self._forward_impl(
+        output_parallel = self._forward_impl(  # 执行前向传播
             input=input_parallel,
             weight=self.weight,
             bias=None,
@@ -1147,31 +1147,32 @@ class RowParallelLinear(torch.nn.Module):
         )
 
         # All-reduce across all the partitions.
-        if self.explicit_expert_comm:
-            assert self.skip_bias_add
-            output_ = output_parallel
-        elif self.sequence_parallel:
-            output_ = reduce_scatter_to_sequence_parallel_region(output_parallel)
+        if self.explicit_expert_comm:  # 如果需要显式专家通信
+            assert self.skip_bias_add  # 断言跳过偏置添加
+            output_ = output_parallel  # 直接使用并行输出
+        elif self.sequence_parallel:  # 如果使用序列并行
+            output_ = reduce_scatter_to_sequence_parallel_region(output_parallel)  # 将并行输出reduce-scatter到序列并行区域
         else:
-            output_ = reduce_from_tensor_model_parallel_region(output_parallel)
-        if not self.skip_bias_add:
-            output = (output_ + self.bias) if self.bias is not None else output_
-            output_bias = None
+            output_ = reduce_from_tensor_model_parallel_region(output_parallel)  # 从张量模型并行区域reduce输出
+        if not self.skip_bias_add:  # 如果不跳过偏置添加
+            output = (output_ + self.bias) if self.bias is not None else output_  # 添加偏置
+            output_bias = None  # 设置输出偏置为None
         else:
-            output = output_
-            output_bias = self.bias
-        return output, output_bias
+            output = output_  # 直接使用输出
+            output_bias = self.bias  # 设置输出偏置为偏置参数
+        return output, output_bias  # 返回输出和输出偏置
 
     def sharded_state_dict(self, prefix='', sharded_offsets=(), metadata=None):
         """Sharding along axis 1, bias not sharded"""
-        state_dict = self.state_dict(prefix='', keep_vars=True)
-        return make_sharded_tensors_for_checkpoint(
+        state_dict = self.state_dict(prefix='', keep_vars=True)  # 获取模块的状态字典
+        return make_sharded_tensors_for_checkpoint(  # 为检查点创建分片张量
             state_dict, prefix, {'weight': 1}, sharded_offsets
         )
 
     def set_extra_state(self, state: Any):
         """Extra state is ignored"""
+        pass  # 忽略额外状态
 
     def get_extra_state(self) -> None:
         """Keep compatibility with TE state dict."""
-        return None
+        return None  # 返回None以保持与TE状态字典的兼容性

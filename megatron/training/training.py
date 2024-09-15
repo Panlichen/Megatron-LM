@@ -496,6 +496,8 @@ def get_model(model_provider_func, model_type=ModelType.encoder_or_decoder, wrap
     if args.fp16 or args.bf16:
         model = [Float16Module(model_module, args) for model_module in model]
 
+    print_rank_0(f"wrap_with_ddp: {wrap_with_ddp}")
+
     if wrap_with_ddp:
         config = get_model_config(model[0])
         ddp_config = DistributedDataParallelConfig(

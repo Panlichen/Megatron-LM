@@ -203,6 +203,7 @@ class DistributedDataParallel(MegatronModule):
         """
         Calls the wrapped module's forward() method.
         """
+        # print("in forward")
         return self.module(*inputs, **kwargs)
 
     def _make_param_hook(
@@ -253,6 +254,7 @@ class DistributedDataParallel(MegatronModule):
         calls. When overlap_grad_reduce is set to False, calls synchronous
         communication ops.
         """
+        print(f"start_grad_sync")
         for buffer in self.buffers + self.expert_parallel_buffers:
             buffer.start_grad_sync()
 
@@ -270,6 +272,7 @@ class DistributedDataParallel(MegatronModule):
         calls to complete. When overlap_grad_reduce is set to False, calls synchronous
         communication ops.
         """
+        print(f"finish_grad_sync: len(self.buffers): {len(self.buffers)}, len(self.expert_parallel_buffers): {len(self.expert_parallel_buffers)}")
         for buffer in self.buffers + self.expert_parallel_buffers:
             buffer.finish_grad_sync()
 

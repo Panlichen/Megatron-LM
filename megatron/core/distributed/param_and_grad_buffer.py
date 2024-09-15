@@ -121,9 +121,10 @@ class Bucket:
                 f'Device: {torch.cuda.current_device()}, node: {os.uname()[1]}'
             )
 
+        # print(f"gradient_scaling_factor: {self.gradient_scaling_factor}")
         # gradient_scaling_factor already takes into account whether we are computing
         # an average or sum in the data-parallel collective.
-        if self.gradient_scaling_factor != 1.0:
+        if self.gradient_scaling_factor != 1.0:  # gradient_scaling_factor: 0.125
             self.grad_data *= self.gradient_scaling_factor
 
         # Decide reduce_op.
@@ -131,8 +132,9 @@ class Bucket:
         if self.ddp_config.average_in_collective:
             reduce_op = torch.distributed.ReduceOp.AVG
 
+        # print(f"use_distributed_optimizer: {self.ddp_config.use_distributed_optimizer}")
         # Use async_op only when overlap_grad_reduce is True.
-        if self.ddp_config.use_distributed_optimizer:
+        if self.ddp_config.use_distributed_optimizer: # use_distributed_optimizer=False
             local_data_view = shard_buffer(self.grad_data, self.data_parallel_world_size)[
                 self.data_parallel_rank
             ]
@@ -144,12 +146,16 @@ class Bucket:
                 async_op=self.ddp_config.overlap_grad_reduce,
             )
         else:
+            # print(f"grad_data的类型: {type(self.grad_data)}")
+            # print(f"overlap_grad_reduce: {self.ddp_config.overlap_grad_reduce}")
             self.communication_handle = torch.distributed.all_reduce(
                 self.grad_data,
                 op=reduce_op,
                 group=self.data_parallel_group,
                 async_op=self.ddp_config.overlap_grad_reduce,
             )
+
+        # overlap_grad_reduce=False
         if self.ddp_config.overlap_grad_reduce:
             self.is_communication_outstanding = True
         else:

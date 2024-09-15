@@ -175,8 +175,8 @@ def get_forward_backward_func():
     else:
         forward_backward_func = forward_backward_no_pipelining
 
-    # forward_backward_func is forward_backward_no_pipelining
-    print(f"forward_backward_func is {forward_backward_func.__name__}")
+    # 只要启动参数里--pipeline-model-parallel-size大于1，就是forward_backward_pipelining_without_interleaving——这个里边会有流水线的stage的相关操作，比如send_forward, recv_forward之类的，否则就是forward_backward_no_pipelining，其实也比较直接
+    # print(f"forward_backward_func is {forward_backward_func.__name__}")
 
     return forward_backward_func
 
