@@ -148,6 +148,9 @@ class Bucket:
         else:
             # print(f"grad_data的类型: {type(self.grad_data)}")
             # print(f"overlap_grad_reduce: {self.ddp_config.overlap_grad_reduce}")
+            # import os
+            # global_rank = torch.distributed.get_rank()
+            # print(f"global rank {global_rank}, ddp rank {self.data_parallel_rank}/{self.data_parallel_world_size}, pid {os.getpid()}, grad_data size: {self.grad_data.nelement()}, shape: {self.grad_data.shape}")
             self.communication_handle = torch.distributed.all_reduce(
                 self.grad_data,
                 op=reduce_op,
@@ -169,6 +172,15 @@ class Bucket:
         When overlap_grad_reduce is set to True, waits for asynchronous communication
         call to complete. When overlap_grad_reduce is set to False, makes synchronous call.
         """
+        
+        import os
+        global_rank = torch.distributed.get_rank()
+        print(f"global rank {global_rank}, ddp rank {self.data_parallel_rank}/{self.data_parallel_world_size}, pid {os.getpid()}, grad_data size: {self.grad_data.nelement()}, shape: {self.grad_data.shape}")
+        
+
+
+
+
         # If overlap_grad_reduce is False, start (and finish) synchronous communication call here.
         if not self.ddp_config.overlap_grad_reduce:
             self.start_grad_sync()
