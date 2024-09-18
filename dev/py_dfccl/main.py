@@ -41,8 +41,7 @@ def main():
     # 获取组内的 rank 和大小
     group_rank = group_ranks.index(rank)
     group_size = len(group_ranks)
-
-    print(f"rank: {rank}({type(rank)}), local_rank: {local_rank}({type(local_rank)}), group_rank: {group_rank}({type(group_rank)}), group_rank_cnt: {group_size}({type(group_size)})")
+    
     # 创建 DfcclExtension 实例
     # dfccl_ext = dfccl_extension.DfcclExtension(
     #     global_rank=rank,
@@ -69,6 +68,7 @@ def main():
 
     # 清理分布式进程组
     dist.destroy_process_group()
+    print("dist.destroy_process_group() called")
 
 if __name__ == "__main__":
     main()

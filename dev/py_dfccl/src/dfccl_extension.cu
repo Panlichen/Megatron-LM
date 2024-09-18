@@ -37,4 +37,5 @@ DfcclExtension::~DfcclExtension() {
         ncclCommDestroy(pair.second);
     }
     // ofcclDestroy(ofccl_rank_ctx);
+    std::cout << "DfcclExtension destructor called" << std::endl;
 }
