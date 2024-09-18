@@ -33,8 +33,8 @@ void DfcclExtension::InitOfcclRankCtx() {
 }
 
 DfcclExtension::~DfcclExtension() {
-    // for (auto& pair : coll_id2nccl_comm) {
-    //     ncclCommDestroy(pair.second);
-    // }
+    for (auto& pair : coll_id2nccl_comm) {
+        ncclCommDestroy(pair.second);
+    }
     // ofcclDestroy(ofccl_rank_ctx);
 }

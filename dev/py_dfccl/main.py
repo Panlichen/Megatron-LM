@@ -60,7 +60,7 @@ def main():
     # 调用 InitNcclComm，coll_id=0，nccl_unique_id_str="DP_AR_{coll_id}"
     coll_id = 0
     nccl_unique_id_str = f"DP_AR_{coll_id}"
-    # dfccl_ext.InitNcclComm(coll_id, nccl_unique_id_str)
+    dfccl_ext.InitNcclComm(coll_id, nccl_unique_id_str)
 
     # 后续您的代码逻辑...
 
