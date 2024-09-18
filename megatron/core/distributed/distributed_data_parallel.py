@@ -273,8 +273,8 @@ class DistributedDataParallel(MegatronModule):
         communication ops.
         """
         print(f"finish_grad_sync: len(self.buffers): {len(self.buffers)}, len(self.expert_parallel_buffers): {len(self.expert_parallel_buffers)}")
-        for buffer in self.buffers + self.expert_parallel_buffers:
-            buffer.finish_grad_sync()
+        for buffer_id, buffer in enumerate(self.buffers + self.expert_parallel_buffers):
+            buffer.finish_grad_sync(buffer_id)
 
     def zero_grad_buffer(self):
         """

@@ -164,7 +164,7 @@ class Bucket:
         else:
             self.is_communication_outstanding = False
 
-    def finish_grad_sync(self):
+    def finish_grad_sync(self, coll_id=-1):
         """
         Finishes grad sync (all-reduce or reduce-scatter) communication operation
         for this bucket.
@@ -175,7 +175,7 @@ class Bucket:
         
         import os
         global_rank = torch.distributed.get_rank()
-        print(f"global rank {global_rank}, ddp rank {self.data_parallel_rank}/{self.data_parallel_world_size}, pid {os.getpid()}, grad_data size: {self.grad_data.nelement()}, shape: {self.grad_data.shape}")
+        print(f"coll_id: {coll_id}, global rank {global_rank}, ddp rank {self.data_parallel_rank}/{self.data_parallel_world_size}, pid {os.getpid()}, grad_data size: {self.grad_data.nelement()}, shape: {self.grad_data.shape}")
         
 
 
@@ -543,7 +543,7 @@ class ParamAndGradBuffer:
         for bucket in self.buckets:
             bucket.start_grad_sync()
 
-    def finish_grad_sync(self):
+    def finish_grad_sync(self, buffer_id=-1):
         """
         Finishes grad sync (all-reduce or reduce-scatter) communication operations
         for all buckets in the grad buffer.
@@ -552,8 +552,10 @@ class ParamAndGradBuffer:
         calls to complete. When overlap_grad_reduce is set to False, calls synchronous
         communication ops.
         """
-        for bucket in self.buckets:
-            bucket.finish_grad_sync()
+        for bucket_id, bucket in enumerate(self.buckets):
+            coll_id = buffer_id * len(self.buckets) + bucket_id
+            print(f"finish_grad_sync: buffer_id: {buffer_id}, bucket_id: {bucket_id}, coll_id: {coll_id}")
+            bucket.finish_grad_sync(coll_id)
 
     def register_grad_ready(self, param: torch.nn.Parameter):
         """
