@@ -6,10 +6,10 @@ DfcclExtension::DfcclExtension(int32_t global_rank, int32_t local_rank, int32_t 
 }
 
 DfcclExtension::~DfcclExtension() {
-    for (auto& pair : coll_id2nccl_comm) {
+    for (auto& pair : coll_id2nccl_comm_) {
         ncclCommDestroy(pair.second);
     }
-    // ofcclDestroy(ofccl_rank_ctx);
+    ofcclDestroy(ofccl_rank_ctx_);
     std::cout << "DfcclExtension destructor called" << std::endl;
 }
 
@@ -116,7 +116,7 @@ void DfcclExtension::InitNcclComm(int32_t coll_id, int32_t group_rank, int32_t g
         std::cout << "NCCL init failed: " << ncclGetErrorString(result) << std::endl;
         return;
     }
-    coll_id2nccl_comm[coll_id] = nccl_comm;
+    coll_id2nccl_comm_[coll_id] = nccl_comm;
     
     // int cudaDev;
     // cudaGetDevice(&cudaDev);
@@ -125,11 +125,11 @@ void DfcclExtension::InitNcclComm(int32_t coll_id, int32_t group_rank, int32_t g
 }
 
 ncclComm_t DfcclExtension::GetNcclComm(int32_t coll_id) {
-    return coll_id2nccl_comm[coll_id];
+    return coll_id2nccl_comm_[coll_id];
 }
 
 void DfcclExtension::InitOfcclRankCtx() {
-    ofcclInitRankCtx(&ofccl_rank_ctx, local_rank_);
+    ofcclInitRankCtx(&ofccl_rank_ctx_, local_rank_);
 }
 
 void DfcclExtension::PrepareAllReduce(size_t count, std::string datatype_str, std::string op_str, int coll_id) {
@@ -188,5 +188,9 @@ void DfcclExtension::PrepareAllReduce(size_t count, std::string datatype_str, st
     //           << "  元素数量: " << count << std::endl
     //           << "  数据类型: " << datatype << " " << datatype_str << std::endl
     //           << "  操作类型: " << op << " " << op_str << std::endl;
-    ofcclPrepareAllReduce(count, datatype, op, comm, coll_id, ofccl_rank_ctx);
+    ofcclPrepareAllReduce(count, datatype, op, comm, coll_id, ofccl_rank_ctx_);
+}
+
+void DfcclExtension::CallOfcclFinalize() {
+    ofcclFinalizeRankCtx7StartHostThrds(ofccl_rank_ctx_);
 }

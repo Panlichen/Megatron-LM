@@ -56,7 +56,8 @@ def main():
         if not dfccl_wrapper.coll_already_init_nccl_comm:
             for coll_id, tensor in enumerate(tensors):
                 dfccl_wrapper.prepare_dfccl_ar(coll_id=coll_id, parallel_type="DP", tensor=tensor)
-                
+            dfccl_wrapper.dfccl_finalize()
+            
         # for coll_id, tensor in enumerate(tensors):
         #     dfccl_wrapper.call_dfccl_ar(coll_id=coll_id, tensor=tensor)
     # print(f"Global Rank: {rank}, World Size: {world_size}, Local Rank: {local_rank}, Group ID: {group_id}, Group Rank: {group_rank}, Group Size: {group_size}")

@@ -74,7 +74,7 @@ class DfcclWrapper:
 
 
     def dfccl_finalize(self):
-        pass
+        self.dfccl_ext.CallOfcclFinalize()
 
     def call_dfccl_ar(self, coll_id, tensor):
         print(f"rank {self.rank}, local_rank {self.local_rank}, call dfccl_ar for coll_id: {coll_id} on group_id: {self.group_id}, group_rank: {self.group_rank}, tensor type: {tensor.dtype}, tensor size: {tensor.nbytes}")

@@ -32,7 +32,8 @@ public:
     ncclComm_t GetNcclComm(int32_t coll_id);
     void InitOfcclRankCtx();
     void PrepareAllReduce(size_t count, std::string datatype_str, std::string op_str, int coll_id);
-    
+    void CallOfcclFinalize();
+
 private:
     void BroadcastUniqueId(const ncclUniqueId& nccl_unique_id, const std::vector<int>& pid_list);
     ncclUniqueId ReceiveUniqueId();
@@ -41,8 +42,8 @@ private:
     int32_t group_id_;
     int32_t group_rank_; // 似乎创建ncclComm, 以及集合通信内的rank, 应该用这个, 对应oneflow里的global_rank_
     int32_t group_rank_cnt_;
-    ofcclRankCtx_t ofccl_rank_ctx;
-    std::unordered_map<int, ncclComm_t> coll_id2nccl_comm;
+    ofcclRankCtx_t ofccl_rank_ctx_;
+    std::unordered_map<int, ncclComm_t> coll_id2nccl_comm_;
 };
 
 #endif // DFCCL_EXTENSION_H

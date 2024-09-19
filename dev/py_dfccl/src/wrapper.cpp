@@ -44,5 +44,6 @@ PYBIND11_MODULE(dfccl_extension, m) {
              py::arg("count"),
              py::arg("datatype_str"),
              py::arg("op_str"),
-             py::arg("coll_id"));
+             py::arg("coll_id"))
+        .def("CallOfcclFinalize", &DfcclExtension::CallOfcclFinalize);
 }
