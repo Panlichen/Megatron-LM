@@ -131,6 +131,8 @@ class Bucket:
         reduce_op = torch.distributed.ReduceOp.SUM
         if self.ddp_config.average_in_collective:
             reduce_op = torch.distributed.ReduceOp.AVG
+        # self.ddp_config.average_in_collective: False, reduce_op: RedOpType.SUM
+        # print(f"self.ddp_config.average_in_collective: {self.ddp_config.average_in_collective}, reduce_op: {reduce_op}")
 
         # print(f"use_distributed_optimizer: {self.ddp_config.use_distributed_optimizer}")
         # Use async_op only when overlap_grad_reduce is True.
@@ -175,7 +177,7 @@ class Bucket:
         
         import os
         global_rank = torch.distributed.get_rank()
-        print(f"coll_id: {coll_id}, global rank {global_rank}, ddp rank {self.data_parallel_rank}/{self.data_parallel_world_size}, pid {os.getpid()}, grad_data size: {self.grad_data.nelement()}, shape: {self.grad_data.shape}")
+        print(f"coll_id: {coll_id}, global rank {global_rank}, ddp rank {self.data_parallel_rank}/{self.data_parallel_world_size}, pid {os.getpid()},tensor type: {self.grad_data.dtype}, tensor size: {self.grad_data.nbytes}")
         
 
 

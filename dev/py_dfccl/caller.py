@@ -47,7 +47,7 @@ def main():
     tensors = [torch.randn(1000000).cuda() for _ in range(5)]
 
     dfccl_ext = None
-    dfccl_wrapper = DfcclWrapper(rank, local_rank, group_id, group_rank, group_size)
+    dfccl_wrapper = DfcclWrapper(rank, local_rank, group_id, group_rank, group_size, group)
 
     # 执行 AllReduce 操作
     for i in range(10):
@@ -55,11 +55,10 @@ def main():
             dfccl_ext = dfccl_wrapper.init_dfccl_ext()  # 调用了InitOfcclRankCtx, 理论上, 一个进程只需要调用一次这个
         if not dfccl_wrapper.coll_already_init_nccl_comm:
             for coll_id, tensor in enumerate(tensors):
-                dfccl_wrapper.prepare_dfccl_ar(coll_id=coll_id, parallel_type="DP")
-        for coll_id, tensor in enumerate(tensors):
-            # 在组内同步
-            # dist.all_reduce(tensor, group=group)
-            dfccl_wrapper.call_dfccl_ar(coll_id=coll_id, tensor=tensor)
+                dfccl_wrapper.prepare_dfccl_ar(coll_id=coll_id, parallel_type="DP", tensor=tensor)
+                
+        # for coll_id, tensor in enumerate(tensors):
+        #     dfccl_wrapper.call_dfccl_ar(coll_id=coll_id, tensor=tensor)
     # print(f"Global Rank: {rank}, World Size: {world_size}, Local Rank: {local_rank}, Group ID: {group_id}, Group Rank: {group_rank}, Group Size: {group_size}")
 
     # 清理所有进程组
