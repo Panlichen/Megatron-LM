@@ -238,7 +238,7 @@ void DfcclExtension::CallOfcclAllReduce(const void* send_buff, void* recv_buff, 
     pid_t pid = getpid();
     int cudaDev;
     cudaGetDevice(&cudaDev);
-    std::cout << "in CallOfcclAllReduce, pid: " << pid << ", cudaDev: " << cudaDev << ", group id: " << group_id_ << ", group rank: " << group_rank_ << ", send_buff: " << send_buff << ", recv_buff: " << recv_buff << std::endl;
+    // std::cout << "in CallOfcclAllReduce, pid: " << pid << ", cudaDev: " << cudaDev << ", group id: " << group_id_ << ", group rank: " << group_rank_ << ", send_buff: " << send_buff << ", recv_buff: " << recv_buff << std::endl;
 
     // std::cout << "pid: " << pid << ", cudaDev: " << cudaDev << ", send_buff from pytorch valid: " << isValidDevicePointer(send_buff) << std::endl;
     // std::cout << "pid: " << pid << ", cudaDev: " << cudaDev << ", recv_buff from pytorch valid: " << isValidDevicePointer(recv_buff) << std::endl;

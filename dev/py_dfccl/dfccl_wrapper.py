@@ -80,7 +80,7 @@ class DfcclWrapper:
         # print(f"rank {self.rank}, local_rank {self.local_rank}, call dfccl_ar for coll_id: {coll_id} on group_id: {self.group_id}, group_rank: {self.group_rank}, tensor type: {tensor.dtype}, tensor size: {tensor.nbytes}")
         send_ptr = tensor.data_ptr()
         recv_ptr = tensor.data_ptr()
-        print(f"PYTHON rank {self.rank}, local_rank {self.local_rank}, call dfccl_ar for coll_id: {coll_id} on group_id: {self.group_id}, group_rank: {self.group_rank}, send_ptr: 0x{send_ptr:x}, recv_ptr: 0x{recv_ptr:x}")
+        # print(f"PYTHON rank {self.rank}, local_rank {self.local_rank}, call dfccl_ar for coll_id: {coll_id} on group_id: {self.group_id}, group_rank: {self.group_rank}, send_ptr: 0x{send_ptr:x}, recv_ptr: 0x{recv_ptr:x}")
         self.dfccl_ext.CallOfcclAllReduce(send_ptr, recv_ptr, coll_id)
 
     def wait_dfccl_cqes(self):
