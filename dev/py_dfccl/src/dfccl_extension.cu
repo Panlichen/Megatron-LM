@@ -1,6 +1,6 @@
 #include "../include/dfccl_extension.h"
 
-DfcclExtension::DfcclExtension(int32_t global_rank, int32_t local_rank, int32_t group_id, int32_t group_rank, int32_t group_rank_cnt) : global_rank_(global_rank), local_rank_(local_rank), group_id_(group_id), group_rank_(group_rank), group_rank_cnt_(group_rank_cnt) {
+DfcclExtension::DfcclExtension(int32_t global_rank, int32_t local_rank, int32_t group_id, int32_t group_rank, int32_t group_rank_cnt) : global_rank_(global_rank), local_rank_(local_rank), group_id_(group_id), group_rank_(group_rank), group_rank_cnt_(group_rank_cnt), coll_cnt_(0) {
     cudaSetDevice(local_rank_);
     InitOfcclRankCtx();
 }
@@ -9,8 +9,11 @@ DfcclExtension::~DfcclExtension() {
     for (auto& pair : coll_id2nccl_comm_) {
         ncclCommDestroy(pair.second);
     }
+    pid_t pid = getpid();
+    int cudaDev;
+    cudaGetDevice(&cudaDev);
+    std::cout << "pid: " << pid << ", cudaDev: " << cudaDev << ", group id: " << group_id_ << ", group rank: " << group_rank_ << ", calling ofcclDestroy" << std::endl;
     ofcclDestroy(ofccl_rank_ctx_);
-    std::cout << "DfcclExtension destructor called" << std::endl;
 }
 
 std::string NcclUniqueIdToString(const ncclUniqueId& unique_id) {
@@ -134,6 +137,8 @@ void DfcclExtension::InitOfcclRankCtx() {
 
 void DfcclExtension::PrepareAllReduce(size_t count, std::string datatype_str, std::string op_str, int coll_id) {
 
+    ++coll_cnt_;
+
     ncclDataType_t datatype;
     ncclRedOp_t op;
     const std::unordered_map<std::string, ncclDataType_t> datatype_map = {
@@ -194,3 +199,83 @@ void DfcclExtension::PrepareAllReduce(size_t count, std::string datatype_str, st
 void DfcclExtension::CallOfcclFinalize() {
     ofcclFinalizeRankCtx7StartHostThrds(ofccl_rank_ctx_);
 }
+
+bool isValidDevicePointer(const void* ptr) {
+    cudaPointerAttributes attributes;
+    cudaError_t error = cudaPointerGetAttributes(&attributes, ptr);
+    
+    if (error != cudaSuccess) {
+        cudaGetLastError(); // 重置最后的CUDA错误
+        return false; // 如果发生错误，认为指针无效
+    }
+    
+    // 检查指针类型
+    #if CUDART_VERSION >= 10000
+        // CUDA 10.0及以上版本
+        return attributes.type == cudaMemoryTypeDevice;
+    #else
+        // CUDA 10.0之前的版本
+        return attributes.memoryType == cudaMemoryTypeDevice;
+    #endif
+}
+
+void DfcclExtension::CallOfcclAllReduce(const void* send_buff, void* recv_buff, int coll_id) {
+    // , CallbackFunc callback, void *callback_args, ofcclRankCtx_t rank_ctx 这3个参数自行解决
+    CallBackArgs *cb_args = new CallBackArgs();
+    cb_arg_list_[coll_id] = cb_args;
+    cb_args->coll_id = coll_id;
+    cb_args->got_cqe = 0;
+    pthread_mutex_init(&cb_args->mutex, NULL);
+
+    auto my_call_back = [](int coll_id_from_cqe, void *args) -> int {
+        pthread_mutex_lock(&((static_cast<CallBackArgs *>(args))->mutex));
+        (static_cast<CallBackArgs *>(args))->got_cqe = 1;
+        pthread_mutex_unlock(&((static_cast<CallBackArgs *>(args))->mutex));
+        return 0;
+    };
+    CallbackFunc cb_func = my_call_back;
+
+    pid_t pid = getpid();
+    int cudaDev;
+    cudaGetDevice(&cudaDev);
+    std::cout << "in CallOfcclAllReduce, pid: " << pid << ", cudaDev: " << cudaDev << ", group id: " << group_id_ << ", group rank: " << group_rank_ << ", send_buff: " << send_buff << ", recv_buff: " << recv_buff << std::endl;
+
+    // std::cout << "pid: " << pid << ", cudaDev: " << cudaDev << ", send_buff from pytorch valid: " << isValidDevicePointer(send_buff) << std::endl;
+    // std::cout << "pid: " << pid << ", cudaDev: " << cudaDev << ", recv_buff from pytorch valid: " << isValidDevicePointer(recv_buff) << std::endl;
+
+    // float *d_array;
+    // size_t size = 1000000 * sizeof(float);
+    // cudaMalloc((void**)&d_array, size);
+    // send_buff = d_array;
+    // recv_buff = d_array;
+    // std::cout << "pid: " << pid << ", cudaDev: " << cudaDev << ", send_buff manual alloc valid: " << isValidDevicePointer(send_buff) << std::endl;
+    // std::cout << "pid: " << pid << ", cudaDev: " << cudaDev << ", recv_buff manual alloc valid: " << isValidDevicePointer(recv_buff) << std::endl;
+
+    ofcclRunAllReduce(send_buff, recv_buff, coll_id, cb_func, cb_args, ofccl_rank_ctx_);
+}
+
+void DfcclExtension::WaitAllReduceCqes() {
+    int got_cqe_cnt = 0;
+    while (got_cqe_cnt < coll_cnt_) {
+        for (int i = 0; i < coll_cnt_; ++i) {
+            pthread_mutex_lock(&(cb_arg_list_[i]->mutex));
+            // pid_t pid = getpid();
+            // int cudaDev;
+            // cudaGetDevice(&cudaDev);
+            // std::cout << "in WaitAllReduceCqes, pid: " << pid << ", cudaDev: " << cudaDev << ", group id: " << group_id_ << ", group rank: " << group_rank_ << ", cb_arg_list_[i]->got_cqe for coll_id: " << i << "is: " << cb_arg_list_[i]->got_cqe << std::endl;
+            if (cb_arg_list_[i]->got_cqe == 1) {
+                if (seen_cqe_[i] == 0) {
+                    ++got_cqe_cnt;
+                    seen_cqe_[i] = 1;
+                    delete cb_arg_list_[i];
+                    // std::cout << "in WaitAllReduceCqes, pid: " << pid << ", cudaDev: " << cudaDev << ", group id: " << group_id_ << ", group rank: " << group_rank_ << ", got cqe for coll_id: " << i << std::endl;
+                }
+            }
+            pthread_mutex_unlock(&(cb_arg_list_[i]->mutex));
+        }
+    }
+    for (int i = 0; i < coll_cnt_; ++i) {
+        seen_cqe_[i] = 0;
+    }
+}
+

@@ -44,23 +44,46 @@ def main():
     group_size = len(group_ranks)
 
     # 在当前进程的 GPU 上创建一个随机张量
-    tensors = [torch.randn(1000000).cuda() for _ in range(5)]
+    # torch_ddp_tensors = [torch.ones(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]  # bug: 十分奇怪, 用了这里的话, daemonKernel里就卡住了, 放弃这种验证方法好了.
+    # tensors = [torch.ones(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]
+    tensors = [torch.randn(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]
+    # torch_ddp_tensors = [tensor.clone().to(tensor.device) for tensor in tensors]  # bug: 也TM十分奇怪, 明明是clone, 但是用dfccl把tensors进行ar之后, 这里的也跟着变了, 放弃这种验证方法好了.
+    # for tensor, torch_ddp_tensor in zip(tensors, torch_ddp_tensors):
+    #     print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, dfccl ori: {tensor[0]}, torch_ddp_ori: {torch_ddp_tensor[0]}, dfccl ptr: {tensor.data_ptr()}, torch_ddp_ptr: {torch_ddp_tensor.data_ptr()}")
 
     dfccl_ext = None
     dfccl_wrapper = DfcclWrapper(rank, local_rank, group_id, group_rank, group_size, group)
 
     # 执行 AllReduce 操作
-    for i in range(10):
+    for i in range(1):
         if dfccl_ext is None:
             dfccl_ext = dfccl_wrapper.init_dfccl_ext()  # 调用了InitOfcclRankCtx, 理论上, 一个进程只需要调用一次这个
         if not dfccl_wrapper.coll_already_init_nccl_comm:
             for coll_id, tensor in enumerate(tensors):
                 dfccl_wrapper.prepare_dfccl_ar(coll_id=coll_id, parallel_type="DP", tensor=tensor)
             dfccl_wrapper.dfccl_finalize()
-            
-        # for coll_id, tensor in enumerate(tensors):
-        #     dfccl_wrapper.call_dfccl_ar(coll_id=coll_id, tensor=tensor)
-    # print(f"Global Rank: {rank}, World Size: {world_size}, Local Rank: {local_rank}, Group ID: {group_id}, Group Rank: {group_rank}, Group Size: {group_size}")
+
+        for coll_id, tensor in enumerate(tensors):
+            dfccl_wrapper.call_dfccl_ar(coll_id=coll_id, tensor=tensor)
+        # print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, call dfccl_ar done, before wait_dfccl_cqes")
+        dfccl_wrapper.wait_dfccl_cqes()
+
+        for coll_id, tensor in enumerate(tensors):
+            print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, coll_id {coll_id}, dfccl result: {tensor[0]}")
+
+        # for tensor, torch_ddp_tensor in zip(tensors, torch_ddp_tensors):
+        #     print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, dfccl before check: {tensor[0]}, torch_ddp_before check: {torch_ddp_tensor[0]}, dfccl ptr: {tensor.data_ptr()}, torch_ddp_ptr: {torch_ddp_tensor.data_ptr()}")
+
+        # for tensor, torch_ddp_tensor in zip(tensors, torch_ddp_tensors):
+        #     dist.all_reduce(torch_ddp_tensor, group=group, op=dist.ReduceOp.SUM)
+
+        #     print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, dfccl result: {tensor[0]}, torch_ddp_result: {torch_ddp_tensor[0]}.")
+
+        #     # 检查结果是否一致
+        #     # if not torch.allclose(tensor, torch_ddp_tensor):
+        #     #     print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, detected a difference in tensor values after AllReduce.")
+        #     # else:
+        #     #     print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, tensor values are consistent after AllReduce.")
 
     # 清理所有进程组
     dist.destroy_process_group()

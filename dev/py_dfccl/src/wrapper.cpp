@@ -45,5 +45,19 @@ PYBIND11_MODULE(dfccl_extension, m) {
              py::arg("datatype_str"),
              py::arg("op_str"),
              py::arg("coll_id"))
-        .def("CallOfcclFinalize", &DfcclExtension::CallOfcclFinalize);
+        .def("CallOfcclFinalize", &DfcclExtension::CallOfcclFinalize)
+        // CallOfcclAllReduce 方法，接受整数形式的地址参数
+        .def("CallOfcclAllReduce",
+             [](DfcclExtension& self, uint64_t send_ptr, uint64_t recv_ptr, int coll_id) {
+                 const void* send_buff = reinterpret_cast<const void*>(send_ptr);
+                 void* recv_buff = reinterpret_cast<void*>(recv_ptr);
+                 // 调用 C++ 方法
+                 self.CallOfcclAllReduce(send_buff, recv_buff, coll_id);
+             },
+             py::arg("send_ptr"),
+             py::arg("recv_ptr"),
+             py::arg("coll_id"))
+        // WaitAllReduceCqes 方法
+        .def("WaitAllReduceCqes", &DfcclExtension::WaitAllReduceCqes)
+        ;
 }
