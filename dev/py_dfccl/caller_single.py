@@ -43,35 +43,39 @@ def main():
     group_rank = group_ranks.index(rank)
     group_size = len(group_ranks)
 
+    # a = torch.ones(1000000).cuda(local_rank).to(torch.float32)
+
     # 在当前进程的 GPU 上创建一个随机张量
     # torch_ddp_tensors = [torch.ones(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]  # bug: 十分奇怪, 用了这里的话, daemonKernel里就卡住了, 放弃这种验证方法好了.
     # tensors = [torch.ones(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]
-    tensors = [torch.randn(10000).cuda(local_rank).to(torch.float32) for _ in range(10)]
+    tensors = [torch.randn(1000000).cuda(local_rank).to(torch.float32) for _ in range(2)]
     # torch_ddp_tensors = [tensor.clone().to(tensor.device) for tensor in tensors]  # bug: 也TM十分奇怪, 明明是clone, 但是用dfccl把tensors进行ar之后, 这里的也跟着变了, 放弃这种验证方法好了.
     # for tensor, torch_ddp_tensor in zip(tensors, torch_ddp_tensors):
     #     print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, dfccl ori: {tensor[0]}, torch_ddp_ori: {torch_ddp_tensor[0]}, dfccl ptr: {tensor.data_ptr()}, torch_ddp_ptr: {torch_ddp_tensor.data_ptr()}")
 
-    dfccl_ext = None
-    dfccl_wrapper = DfcclWrapper(rank, local_rank, group_id, group_rank, group_size, group)
+    # dfccl_ext = None
+    # dfccl_wrapper = DfcclWrapper(rank, local_rank, group_id, group_rank, group_size, group)
+
+    extern_coll_id_2_dfccl_ext = [None for _ in tensors]
+    extern_coll_id_2_dfccl_wrapper = [DfcclWrapper(rank, local_rank, group_id, group_rank, group_size, group) for _ in tensors]
 
     # 执行 AllReduce 操作
-    for i in range(100):
-        # tensors = [torch.randn(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]
-        if dfccl_ext is None:
-            dfccl_ext = dfccl_wrapper.init_dfccl_ext()  # 调用了InitOfcclRankCtx, 理论上, 一个进程只需要调用一次这个
-        if not dfccl_wrapper.coll_already_init_nccl_comm:
-            for coll_id, tensor in enumerate(tensors):
-                dfccl_wrapper.prepare_dfccl_ar(coll_id=coll_id, parallel_type="DP", tensor=tensor)
-            dfccl_wrapper.dfccl_finalize()
+    for i in range(1000):
+        for extern_coll_id, tensor in enumerate(tensors):
+            if extern_coll_id_2_dfccl_ext[extern_coll_id] is None:
+                extern_coll_id_2_dfccl_ext[extern_coll_id] = extern_coll_id_2_dfccl_wrapper[extern_coll_id].init_dfccl_ext()
+            if not extern_coll_id_2_dfccl_wrapper[extern_coll_id].coll_already_init_nccl_comm:
+                extern_coll_id_2_dfccl_wrapper[extern_coll_id].prepare_dfccl_ar(coll_id=0, parallel_type="DP", tensor=tensor)
+                extern_coll_id_2_dfccl_wrapper[extern_coll_id].dfccl_finalize()
+                # print(f"{i}th iter, Rank {rank}, group_id {group_id}, group_rank {group_rank}, init comm for coll_id: {extern_coll_id}")
 
-        for coll_id, tensor in enumerate(tensors):
-            dfccl_wrapper.call_dfccl_ar(coll_id=coll_id, tensor=tensor)
-        # print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, call dfccl_ar done, before wait_dfccl_cqes")
-        dfccl_wrapper.wait_dfccl_cqes()
+            extern_coll_id_2_dfccl_wrapper[extern_coll_id].call_dfccl_ar(coll_id=0, tensor=tensor)
+            # print(f"{i}th iter, Rank {rank}, group_id {group_id}, group_rank {group_rank}, call dfccl_ar for coll_id: {extern_coll_id}")
+            extern_coll_id_2_dfccl_wrapper[extern_coll_id].wait_dfccl_cqes()
+            # print(f"{i}th iter, Rank {rank}, group_id {group_id}, group_rank {group_rank}, wait dfccl_cqes for coll_id: {extern_coll_id}")
 
         # if i % 100 == 0:
         print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, done {i} iters for {len(tensors)} tensors")
-
 
         # for coll_id, tensor in enumerate(tensors):
         #     print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, coll_id {coll_id}, dfccl result: {tensor[0]}")

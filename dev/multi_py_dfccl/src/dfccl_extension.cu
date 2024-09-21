@@ -225,25 +225,19 @@ void DfcclExtension::CallOfcclAllReduce(const void* send_buff, void* recv_buff, 
     cb_arg_list_[coll_id] = cb_args;
     cb_args->coll_id = coll_id;
     cb_args->got_cqe = 0;
-    seen_cqe_[coll_id] = 0;  // bugfix: 难道pytorch多创建几个tensor就跑不了的问题, 让这一行初始化解决了?
     pthread_mutex_init(&cb_args->mutex, NULL);
 
     auto my_call_back = [](int coll_id_from_cqe, void *args) -> int {
         pthread_mutex_lock(&((static_cast<CallBackArgs *>(args))->mutex));
         (static_cast<CallBackArgs *>(args))->got_cqe = 1;
         pthread_mutex_unlock(&((static_cast<CallBackArgs *>(args))->mutex));
-        pid_t pid = getpid();
-        int cudaDev;
-        cudaGetDevice(&cudaDev);
-        // std::cout << "in callback, got_cqe is " << (static_cast<CallBackArgs *>(args))->got_cqe << std::endl;
-        // std::cout << "in callback" << std::endl;
         return 0;
     };
     CallbackFunc cb_func = my_call_back;
 
-    // pid_t pid = getpid();
-    // int cudaDev;
-    // cudaGetDevice(&cudaDev);
+    pid_t pid = getpid();
+    int cudaDev;
+    cudaGetDevice(&cudaDev);
     // std::cout << "in CallOfcclAllReduce, pid: " << pid << ", cudaDev: " << cudaDev << ", group id: " << group_id_ << ", group rank: " << group_rank_ << ", send_buff: " << send_buff << ", recv_buff: " << recv_buff << std::endl;
 
     // std::cout << "pid: " << pid << ", cudaDev: " << cudaDev << ", send_buff from pytorch valid: " << isValidDevicePointer(send_buff) << std::endl;
@@ -268,7 +262,7 @@ void DfcclExtension::WaitAllReduceCqes() {
             // pid_t pid = getpid();
             // int cudaDev;
             // cudaGetDevice(&cudaDev);
-            // std::cout << "cb_arg_list_[i]->got_cqe is: " << cb_arg_list_[i]->got_cqe << std::endl;
+            // std::cout << "in WaitAllReduceCqes, pid: " << pid << ", cudaDev: " << cudaDev << ", group id: " << group_id_ << ", group rank: " << group_rank_ << ", cb_arg_list_[i]->got_cqe for coll_id: " << i << "is: " << cb_arg_list_[i]->got_cqe << std::endl;
             if (cb_arg_list_[i]->got_cqe == 1) {
                 if (seen_cqe_[i] == 0) {
                     ++got_cqe_cnt;

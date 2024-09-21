@@ -46,7 +46,7 @@ def main():
     # 在当前进程的 GPU 上创建一个随机张量
     # torch_ddp_tensors = [torch.ones(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]  # bug: 十分奇怪, 用了这里的话, daemonKernel里就卡住了, 放弃这种验证方法好了.
     # tensors = [torch.ones(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]
-    tensors = [torch.randn(10000).cuda(local_rank).to(torch.float32) for _ in range(10)]
+    tensors = [torch.randn(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]
     # torch_ddp_tensors = [tensor.clone().to(tensor.device) for tensor in tensors]  # bug: 也TM十分奇怪, 明明是clone, 但是用dfccl把tensors进行ar之后, 这里的也跟着变了, 放弃这种验证方法好了.
     # for tensor, torch_ddp_tensor in zip(tensors, torch_ddp_tensors):
     #     print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, dfccl ori: {tensor[0]}, torch_ddp_ori: {torch_ddp_tensor[0]}, dfccl ptr: {tensor.data_ptr()}, torch_ddp_ptr: {torch_ddp_tensor.data_ptr()}")
@@ -55,7 +55,7 @@ def main():
     dfccl_wrapper = DfcclWrapper(rank, local_rank, group_id, group_rank, group_size, group)
 
     # 执行 AllReduce 操作
-    for i in range(100):
+    for i in range(1000):
         # tensors = [torch.randn(1000000).cuda(local_rank).to(torch.float32) for _ in range(1)]
         if dfccl_ext is None:
             dfccl_ext = dfccl_wrapper.init_dfccl_ext()  # 调用了InitOfcclRankCtx, 理论上, 一个进程只需要调用一次这个
@@ -69,9 +69,8 @@ def main():
         # print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, call dfccl_ar done, before wait_dfccl_cqes")
         dfccl_wrapper.wait_dfccl_cqes()
 
-        # if i % 100 == 0:
-        print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, done {i} iters for {len(tensors)} tensors")
-
+        if i % 100 == 0:
+            print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, done {i} iters")
 
         # for coll_id, tensor in enumerate(tensors):
         #     print(f"Rank {rank}, group_id {group_id}, group_rank {group_rank}, coll_id {coll_id}, dfccl result: {tensor[0]}")
