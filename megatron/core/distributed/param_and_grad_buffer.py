@@ -16,6 +16,7 @@ from .distributed_data_parallel_config import DistributedDataParallelConfig
 dfccl_path = '/workspace/Megatron-LM/dev/py_dfccl'
 sys.path.append(dfccl_path)
 from dfccl_wrapper import DfcclWrapper
+import dfccl_wrapper
 
 logger = logging.getLogger(__name__)
 
@@ -199,9 +200,10 @@ class Bucket:
         ################## 用DFCCL在这里接管AR ##################
 
         env_dp_dfccl = int(os.environ.get("DP_DFCCL", 0))
+        dfccl_wrapper.reset_global_tensor_counter()
 
         if env_dp_dfccl:
-            print("USE DFCCL")
+            print("DP USE DFCCL")
             if self.dfccl_ext is None:
                 self.dfccl_ext = self.dfccl_wrapper.init_dfccl_ext()
                 
@@ -227,7 +229,7 @@ class Bucket:
 
         ######################################################
         else:
-            print("USE NCCL")
+            print("DP USE NCCL")
             self.start_grad_sync()
 
         ######################################################

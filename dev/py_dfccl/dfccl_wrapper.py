@@ -3,6 +3,20 @@ import sys
 import torch
 import torch.distributed as dist
 
+global_tensor_counter = 0
+
+def reset_global_tensor_counter():
+    global global_tensor_counter
+    global_tensor_counter = 0
+
+def get_global_tensor_counter():
+    global global_tensor_counter
+    return global_tensor_counter
+
+def increase_global_tensor_counter():
+    global global_tensor_counter
+    global_tensor_counter += 1
+
 class DfcclWrapper:
     def __init__(self, rank, local_rank, group_id, group_rank, group_size, group):
         self.rank = rank

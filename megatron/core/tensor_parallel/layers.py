@@ -4,6 +4,7 @@
 # repo: https://github.com/pytorch/pytorch
 
 import os
+import sys
 import warnings
 from typing import Any, Callable, List, Optional, Tuple
 
@@ -35,6 +36,11 @@ from .mappings import (
 )
 from .random import get_cuda_rng_tracker, get_expert_parallel_rng_tracker_name
 from .utils import VocabUtility, divide
+
+dfccl_path = '/workspace/Megatron-LM/dev/py_dfccl'
+sys.path.append(dfccl_path)
+from dfccl_wrapper import DfcclWrapper
+import dfccl_wrapper
 
 _grad_accum_fusion_available = True
 try:
@@ -292,6 +298,13 @@ class LinearWithFrozenWeight(torch.autograd.Function):
         grad_input = grad_output.matmul(weight)
 
         if ctx.allreduce_dgrad:
+            # 没有调用这里
+            # global_rank = torch.distributed.get_rank()
+            # local_rank = os.environ.get("LOCAL_RANK", 0)
+            # group_size = torch.distributed.get_world_size(group=get_tensor_model_parallel_group())
+            # group_rank = torch.distributed.get_rank(group=get_tensor_model_parallel_group())
+            
+            # print(f"TP global rank {global_rank}, local rank {local_rank}, ddp group rank {group_rank}/{group_size}, AR in LinearWithFrozenWeight")
             # All-reduce. Note: here async and sync are effectively the same.
             torch.distributed.all_reduce(grad_input, group=get_tensor_model_parallel_group())
 
@@ -418,6 +431,15 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
     @staticmethod
     @custom_bwd
     def backward(ctx, grad_output):
+        global_rank = torch.distributed.get_rank()
+        local_rank = os.environ.get("LOCAL_RANK", 0)
+        group_size = torch.distributed.get_world_size(group=get_tensor_model_parallel_group())
+        group_rank = torch.distributed.get_rank(group=get_tensor_model_parallel_group())
+        env_tp_dfccl = int(os.environ.get("TP_DFCCL", 0))
+        # if global_rank == 6:
+        print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, global_tensor_counter is {dfccl_wrapper.get_global_tensor_counter()}")
+        dfccl_wrapper.increase_global_tensor_counter()
+
         input, weight = ctx.saved_tensors
         use_bias = ctx.use_bias
         grad_output_buffer = ctx.grad_output_buffer
@@ -459,6 +481,9 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
 
         if ctx.allreduce_dgrad:
             # Asynchronous all-reduce
+            
+            # if global_rank == 6:
+            #     print(f"TP global rank {global_rank}, local rank {local_rank}, ddp group rank {group_rank}/{group_size}, AR in LinearWithGradAccumulationAndAsyncCommunication")
             handle = torch.distributed.all_reduce(
                 grad_input, group=get_tensor_model_parallel_group(), async_op=True
             )
@@ -466,6 +491,7 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
             # all-reduce is scheduled before the weight gradient computation
 
         if ctx.sequence_parallel:
+            print(f"ctx.sequence_parallel: {ctx.sequence_parallel}")
             assert not ctx.allreduce_dgrad
             dim_size = list(input.size())
             sub_grad_input = torch.empty(
@@ -479,6 +505,8 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
             # reduce scatter is scheduled before the weight gradient computation
 
         if ctx.gradient_accumulation_fusion:
+            # if global_rank == 6:
+            #     print(f"ctx.gradient_accumulation_fusion: {ctx.gradient_accumulation_fusion}")
             if wgrad_compute:
                 if weight.main_grad.dtype == torch.float32:
                     fused_weight_gradient_mlp_cuda.wgrad_gemm_accum_fp32(
