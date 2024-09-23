@@ -66,7 +66,8 @@ class DfcclWrapper:
             # 如果需要，你可以添加自定义的映射
         }
 
-        count = tensor.numel() * tensor.element_size()
+        # count = tensor.numel() * tensor.element_size()  # bugfix: 不应该乘element_size, 这里就是元素数. 之前clone新tensor, dfccl ar 新tensor之后, clone出来的也变了, 可能与这个有关.
+        count = tensor.numel()
         datatype_str = dtype_to_dfccl[tensor.dtype]
         op_str = "dfccl_sum"
         self.dfccl_ext.PrepareAllReduce(count, datatype_str, op_str, coll_id)

@@ -21,6 +21,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <pthread.h>
+#include <iomanip>
+#include <sstream>
 
 const int MAX_COLL_NUM = 10000;
 const std::string FIFO_PATH_PREFIX = "/tmp/dfccl_fifo_";

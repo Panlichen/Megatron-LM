@@ -112,6 +112,19 @@ void DfcclExtension::InitNcclComm(int32_t coll_id, int32_t group_rank, int32_t g
         nccl_unique_id = ReceiveUniqueId();
     }
 
+    // int cudaDev;
+    // cudaGetDevice(&cudaDev);
+    // pid_t pid = getpid();
+    // std::stringstream ss;
+    // ss << std::hex << std::setfill('0');
+    // for (int i = 0; i < NCCL_UNIQUE_ID_BYTES; i++) {
+    //     ss << std::setw(2) << (int)nccl_unique_id.internal[i];
+    // }
+    // std::cout << "pid: " << pid << ", cudaDev: " << cudaDev 
+    //           << ", group_rank_cnt_: " << group_rank_cnt_ 
+    //           << ", group_rank_: " << group_rank_
+    //           << ", nccl_unique_id.internal: " << ss.str() << std::endl;
+
     ncclComm_t nccl_comm;
     cudaSetDevice(local_rank_);
     ncclResult_t result = ncclCommInitRank(&nccl_comm, group_rank_cnt_, nccl_unique_id, group_rank_);

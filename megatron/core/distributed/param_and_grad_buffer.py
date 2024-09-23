@@ -3,13 +3,19 @@
 import logging
 import math
 import os
+import sys
 from enum import Enum
 from typing import Dict, List, Optional
+import time
 
 import torch
 
 from ..utils import log_on_each_pipeline_stage
 from .distributed_data_parallel_config import DistributedDataParallelConfig
+# 添加包含 dfccl_wrapper 的目录到 Python 路径
+dfccl_path = '/workspace/Megatron-LM/dev/py_dfccl'
+sys.path.append(dfccl_path)
+from dfccl_wrapper import DfcclWrapper
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +92,20 @@ class Bucket:
         self.data_parallel_world_size = data_parallel_world_size
         self.data_parallel_rank = torch.distributed.get_rank(group=data_parallel_group)
         self.gradient_scaling_factor = gradient_scaling_factor
+
+        
+        import os
+        self.global_rank = torch.distributed.get_rank()
+        
+        self.group_rank = self.data_parallel_rank
+        self.group_id = id(self.data_parallel_group)
+        self.group_size = self.data_parallel_world_size
+        self.local_rank = int(os.environ.get("LOCAL_RANK", 0))
+        assert torch.cuda.current_device() == self.local_rank, f"当前CUDA设备 {torch.cuda.current_device()} 与local_rank {self.local_rank} 不匹配"
+        print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}/{self.group_id}, pid {os.getpid()},tensor type: {self.grad_data.dtype}, tensor size: {self.grad_data.nbytes}")
+
+        self.dfccl_ext = None
+        self.dfccl_wrapper = DfcclWrapper(self.global_rank, self.local_rank, -1, self.group_rank, self.group_size, self.data_parallel_group)
 
         self.reset()
 
@@ -166,7 +186,7 @@ class Bucket:
         else:
             self.is_communication_outstanding = False
 
-    def finish_grad_sync(self, coll_id=-1):
+    def finish_grad_sync(self):
         """
         Finishes grad sync (all-reduce or reduce-scatter) communication operation
         for this bucket.
@@ -174,24 +194,58 @@ class Bucket:
         When overlap_grad_reduce is set to True, waits for asynchronous communication
         call to complete. When overlap_grad_reduce is set to False, makes synchronous call.
         """
-        
-        import os
-        global_rank = torch.distributed.get_rank()
-        print(f"coll_id: {coll_id}, global rank {global_rank}, ddp rank {self.data_parallel_rank}/{self.data_parallel_world_size}, pid {os.getpid()},tensor type: {self.grad_data.dtype}, tensor size: {self.grad_data.nbytes}")
-        
 
+        start_time = time.time()
+        ################## 用DFCCL在这里接管AR ##################
 
+        env_dp_dfccl = int(os.environ.get("DP_DFCCL", 0))
 
+        if env_dp_dfccl:
+            print("USE DFCCL")
+            if self.dfccl_ext is None:
+                self.dfccl_ext = self.dfccl_wrapper.init_dfccl_ext()
+                
+            # gradient_scaling_factor already takes into account whether we are computing
+            # an average or sum in the data-parallel collective. 看来是已经根据dp group的大小算好的吧
+            # print(f"gradient_scaling_factor: {self.gradient_scaling_factor}, self.grad_data.numel(): {self.grad_data.numel()} self.grad_data.dtype: {self.grad_data.dtype}, self.grad_data.device: {self.grad_data.device}")
+            if self.gradient_scaling_factor != 1.0:
+                self.grad_data *= self.gradient_scaling_factor
+            # 选在bucket这里用, 其实就只有一个tensor了, 好在我们观察到的情况里, 只有一个tensor
+            
+            if not self.dfccl_wrapper.coll_already_init_nccl_comm:
+                # print(f"PREPARE")
+                self.dfccl_wrapper.prepare_dfccl_ar(coll_id=0, parallel_type="DP", tensor=self.grad_data)
+                self.dfccl_wrapper.dfccl_finalize()
+
+            self.dfccl_wrapper.call_dfccl_ar(coll_id=0, tensor=self.grad_data)
+
+            before_wait_time = time.time()
+            print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, CALL AR takes {before_wait_time-start_time:.4f} s")
+            self.dfccl_wrapper.wait_dfccl_cqes()
+            after_wait_time = time.time()
+            print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, WAIT AR takes {after_wait_time-before_wait_time:.4f} s")
+
+        ######################################################
+        else:
+            print("USE NCCL")
+            self.start_grad_sync()
+
+        ######################################################
+        end_time = time.time()
+        print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, AR takes {end_time-start_time:.4f} s")
 
         # If overlap_grad_reduce is False, start (and finish) synchronous communication call here.
-        if not self.ddp_config.overlap_grad_reduce:
-            self.start_grad_sync()
-            return
-        assert self.communication_handle is not None and self.is_communication_outstanding, (
-            f'Communication call has not been issued for this bucket '
-            f'({len(self.params_with_grad)}/{len(self.params)} params have grad available)'
-        )
-        self.communication_handle.wait()
+        # if not self.ddp_config.overlap_grad_reduce:
+        #     self.start_grad_sync()
+        #     return
+        # assert self.communication_handle is not None and self.is_communication_outstanding, (
+        #     f'Communication call has not been issued for this bucket '
+        #     f'({len(self.params_with_grad)}/{len(self.params)} params have grad available)'
+        # )
+        # self.communication_handle.wait()
+
+
+
 
     def register_grad_ready(self, param: torch.nn.Parameter):
         """
@@ -545,7 +599,7 @@ class ParamAndGradBuffer:
         for bucket in self.buckets:
             bucket.start_grad_sync()
 
-    def finish_grad_sync(self, buffer_id=-1):
+    def finish_grad_sync(self):
         """
         Finishes grad sync (all-reduce or reduce-scatter) communication operations
         for all buckets in the grad buffer.
@@ -554,10 +608,9 @@ class ParamAndGradBuffer:
         calls to complete. When overlap_grad_reduce is set to False, calls synchronous
         communication ops.
         """
+        # print(f"len(self.buckets): {len(self.buckets)}")
         for bucket_id, bucket in enumerate(self.buckets):
-            coll_id = buffer_id * len(self.buckets) + bucket_id
-            print(f"finish_grad_sync: buffer_id: {buffer_id}, bucket_id: {bucket_id}, coll_id: {coll_id}")
-            bucket.finish_grad_sync(coll_id)
+            bucket.finish_grad_sync()
 
     def register_grad_ready(self, param: torch.nn.Parameter):
         """

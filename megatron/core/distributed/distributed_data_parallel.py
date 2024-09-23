@@ -272,9 +272,12 @@ class DistributedDataParallel(MegatronModule):
         calls to complete. When overlap_grad_reduce is set to False, calls synchronous
         communication ops.
         """
-        print(f"finish_grad_sync: len(self.buffers): {len(self.buffers)}, len(self.expert_parallel_buffers): {len(self.expert_parallel_buffers)}")
+        # global_rank = torch.distributed.get_rank()
+        # import os
+        # local_rank = int(os.environ.get("LOCAL_RANK", 0))
+        # print(f"global_rank {global_rank}, local_rank {local_rank}, finish_grad_sync: len(self.buffers): {len(self.buffers)}, len(self.expert_parallel_buffers): {len(self.expert_parallel_buffers)}")
         for buffer_id, buffer in enumerate(self.buffers + self.expert_parallel_buffers):
-            buffer.finish_grad_sync(buffer_id)
+            buffer.finish_grad_sync()
 
     def zero_grad_buffer(self):
         """
