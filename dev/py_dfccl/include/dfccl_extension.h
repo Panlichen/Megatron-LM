@@ -38,6 +38,7 @@ public:
     void CallOfcclFinalize();
     void CallOfcclAllReduce(const void* send_buff, void* recv_buff, int coll_id);
     void WaitAllReduceCqes();
+    void WaitCqe4Coll(int32_t coll_id);
 
 private:
     struct CallBackArgs {

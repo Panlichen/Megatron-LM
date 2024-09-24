@@ -3,19 +3,38 @@ import sys
 import torch
 import torch.distributed as dist
 
-global_tensor_counter = 0
+tp_global_tensor_counter = 0
+seen_all_tp_colls = False
+# 应该是不需要维护一个变量记录目前总共有几个coll了.
+tp_already_call_finalize = False
 
-def reset_global_tensor_counter():
-    global global_tensor_counter
-    global_tensor_counter = 0
+def get_seen_all_tp_colls():
+    global seen_all_tp_colls
+    return seen_all_tp_colls
 
-def get_global_tensor_counter():
-    global global_tensor_counter
-    return global_tensor_counter
+def set_seen_all_tp_colls():
+    global seen_all_tp_colls
+    seen_all_tp_colls = True
 
-def increase_global_tensor_counter():
-    global global_tensor_counter
-    global_tensor_counter += 1
+def get_tp_already_call_finalize():
+    global tp_already_call_finalize
+    return tp_already_call_finalize
+
+def set_tp_already_call_finalize():
+    global tp_already_call_finalize
+    tp_already_call_finalize = True
+
+def reset_tp_global_tensor_counter():
+    global tp_global_tensor_counter
+    tp_global_tensor_counter = 0
+
+def get_tp_global_tensor_counter():
+    global tp_global_tensor_counter
+    return tp_global_tensor_counter
+
+def increase_tp_global_tensor_counter():
+    global tp_global_tensor_counter
+    tp_global_tensor_counter += 1
 
 class DfcclWrapper:
     def __init__(self, rank, local_rank, group_id, group_rank, group_size, group):
@@ -100,3 +119,10 @@ class DfcclWrapper:
 
     def wait_dfccl_cqes(self):
         self.dfccl_ext.WaitAllReduceCqes()
+
+    def wait_dfccl_cqe_4_coll(self, coll_id):
+        self.dfccl_ext.WaitCqe4Coll(coll_id)
+
+
+dfccl_ext = None
+dfccl_wrapper_object = None

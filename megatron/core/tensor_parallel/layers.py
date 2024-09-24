@@ -5,6 +5,7 @@
 
 import os
 import sys
+import time
 import warnings
 from typing import Any, Callable, List, Optional, Tuple
 
@@ -432,13 +433,11 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
     @custom_bwd
     def backward(ctx, grad_output):
         global_rank = torch.distributed.get_rank()
-        local_rank = os.environ.get("LOCAL_RANK", 0)
+        local_rank = int(os.environ.get("LOCAL_RANK", 0))
         group_size = torch.distributed.get_world_size(group=get_tensor_model_parallel_group())
         group_rank = torch.distributed.get_rank(group=get_tensor_model_parallel_group())
         env_tp_dfccl = int(os.environ.get("TP_DFCCL", 0))
-        # if global_rank == 6:
-        print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, global_tensor_counter is {dfccl_wrapper.get_global_tensor_counter()}")
-        dfccl_wrapper.increase_global_tensor_counter()
+        coll_id = -1
 
         input, weight = ctx.saved_tensors
         use_bias = ctx.use_bias
@@ -479,19 +478,51 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
                 grad_output, total_input
             )
 
+        if env_tp_dfccl:
+
+            # print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, tp_global_tensor_counter is {dfccl_wrapper.get_tp_global_tensor_counter()}")
+
+            if dfccl_wrapper.dfccl_ext is None:
+                dfccl_wrapper.dfccl_wrapper_object = DfcclWrapper(global_rank, local_rank, -1, group_rank, group_size, get_tensor_model_parallel_group())
+                dfccl_wrapper.dfccl_ext = dfccl_wrapper.dfccl_wrapper_object.init_dfccl_ext()
+            
+            coll_id = dfccl_wrapper.get_tp_global_tensor_counter()
+            
+            coll_already_init_nccl_comm = dfccl_wrapper.dfccl_wrapper_object.coll_already_init_nccl_comm.get(coll_id, False)
+            if not coll_already_init_nccl_comm:
+                # print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, prepare for coll_id {coll_id}")
+                dfccl_wrapper.dfccl_wrapper_object.prepare_dfccl_ar(coll_id=coll_id, parallel_type="TP", tensor=grad_input)
+
+            if dfccl_wrapper.get_seen_all_tp_colls() and not dfccl_wrapper.get_tp_already_call_finalize():
+                # print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, call dfccl_finalize")
+                dfccl_wrapper.dfccl_wrapper_object.dfccl_finalize()  # 发现seen_all_tp_colls是True了, 可以Finalize了, 只需要调用一次, 要保证仅仅调用一次
+                dfccl_wrapper.set_tp_already_call_finalize()
+
         if ctx.allreduce_dgrad:
+            time_start = time.time()
             # Asynchronous all-reduce
             
             # if global_rank == 6:
             #     print(f"TP global rank {global_rank}, local rank {local_rank}, ddp group rank {group_rank}/{group_size}, AR in LinearWithGradAccumulationAndAsyncCommunication")
-            handle = torch.distributed.all_reduce(
-                grad_input, group=get_tensor_model_parallel_group(), async_op=True
-            )
+            if env_tp_dfccl:
+                if dfccl_wrapper.get_seen_all_tp_colls():
+                    # print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, call_dfccl_ar for coll_id {coll_id}")
+                    dfccl_wrapper.dfccl_wrapper_object.call_dfccl_ar(coll_id=coll_id, tensor=grad_input)
+                else:
+                    handle = torch.distributed.all_reduce(
+                        grad_input, group=get_tensor_model_parallel_group(), async_op=True
+                    )
+            else:
+                handle = torch.distributed.all_reduce(
+                    grad_input, group=get_tensor_model_parallel_group(), async_op=True
+                )
             # Here we rely on CUDA_DEVICE_MAX_CONNECTIONS=1 to ensure that the
             # all-reduce is scheduled before the weight gradient computation
+            time_end = time.time()
+            # print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, call tp ar takes {time_end - time_start:.4f} s")
 
         if ctx.sequence_parallel:
-            print(f"ctx.sequence_parallel: {ctx.sequence_parallel}")
+            # print(f"ctx.sequence_parallel: {ctx.sequence_parallel}")
             assert not ctx.allreduce_dgrad
             dim_size = list(input.size())
             sub_grad_input = torch.empty(
@@ -552,7 +583,20 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
             return sub_grad_input, grad_weight, grad_bias, None, None, None, None, None
 
         if ctx.allreduce_dgrad:
-            handle.wait()
+            time_start = time.time()
+            if env_tp_dfccl:
+                if dfccl_wrapper.get_seen_all_tp_colls():
+                    dfccl_wrapper.dfccl_wrapper_object.wait_dfccl_cqe_4_coll(coll_id)
+                    # print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, coll_id {coll_id} done")
+                else:
+                    handle.wait()
+            else:
+                handle.wait()
+            time_end = time.time()
+            # print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, wait tp ar takes {time_end - time_start:.4f} s")
+
+        if env_tp_dfccl:
+            dfccl_wrapper.increase_tp_global_tensor_counter()  # 最后再更新coll_id
 
         return grad_input, grad_weight, grad_bias, None, None, None, None, None
 

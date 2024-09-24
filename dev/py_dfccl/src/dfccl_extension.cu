@@ -298,3 +298,14 @@ void DfcclExtension::WaitAllReduceCqes() {
     }
 }
 
+void DfcclExtension::WaitCqe4Coll(int32_t coll_id) {
+    bool got_cqe{false};
+    while (!got_cqe) {
+        pthread_mutex_lock(&(cb_arg_list_[coll_id]->mutex));
+        if (cb_arg_list_[coll_id]->got_cqe == 1) {
+            got_cqe = true;
+            delete cb_arg_list_[coll_id];
+        }
+        pthread_mutex_unlock(&(cb_arg_list_[coll_id]->mutex));
+    }
+}

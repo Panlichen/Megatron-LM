@@ -59,5 +59,7 @@ PYBIND11_MODULE(dfccl_extension, m) {
              py::arg("coll_id"))
         // WaitAllReduceCqes 方法
         .def("WaitAllReduceCqes", &DfcclExtension::WaitAllReduceCqes)
+        // 添加 WaitCqe4Coll 方法
+        .def("WaitCqe4Coll", &DfcclExtension::WaitCqe4Coll, py::arg("coll_id"))
         ;
 }

@@ -103,7 +103,7 @@ class Bucket:
         self.group_size = self.data_parallel_world_size
         self.local_rank = int(os.environ.get("LOCAL_RANK", 0))
         assert torch.cuda.current_device() == self.local_rank, f"当前CUDA设备 {torch.cuda.current_device()} 与local_rank {self.local_rank} 不匹配"
-        print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}/{self.group_id}, pid {os.getpid()},tensor type: {self.grad_data.dtype}, tensor size: {self.grad_data.nbytes}")
+        # print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}/{self.group_id}, pid {os.getpid()},tensor type: {self.grad_data.dtype}, tensor size: {self.grad_data.nbytes}")
 
         self.dfccl_ext = None
         self.dfccl_wrapper = DfcclWrapper(self.global_rank, self.local_rank, -1, self.group_rank, self.group_size, self.data_parallel_group)
@@ -200,7 +200,15 @@ class Bucket:
         ################## 用DFCCL在这里接管AR ##################
 
         env_dp_dfccl = int(os.environ.get("DP_DFCCL", 0))
-        dfccl_wrapper.reset_global_tensor_counter()
+        env_tp_dfccl = int(os.environ.get("TP_DFCCL", 0))
+
+        if env_tp_dfccl:
+            print("TP USE DFCCL")
+            dfccl_wrapper.reset_tp_global_tensor_counter()  # 这个每次都要调用
+            dfccl_wrapper.set_seen_all_tp_colls()  # 这个其实调用一次就够了. 在dp的时候, 所有tp的coll就都见过了
+            # print(f"global rank {self.global_rank}, local rank {self.local_rank}, set_seen_all_tp_colls")
+        else:
+            print("TP USE NCCL")
 
         if env_dp_dfccl:
             print("DP USE DFCCL")
@@ -222,10 +230,10 @@ class Bucket:
             self.dfccl_wrapper.call_dfccl_ar(coll_id=0, tensor=self.grad_data)
 
             before_wait_time = time.time()
-            print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, CALL AR takes {before_wait_time-start_time:.4f} s")
+            # print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, CALL AR takes {before_wait_time-start_time:.4f} s")
             self.dfccl_wrapper.wait_dfccl_cqes()
             after_wait_time = time.time()
-            print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, WAIT AR takes {after_wait_time-before_wait_time:.4f} s")
+            # print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, WAIT AR takes {after_wait_time-before_wait_time:.4f} s")
 
         ######################################################
         else:
@@ -234,7 +242,7 @@ class Bucket:
 
         ######################################################
         end_time = time.time()
-        print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, AR takes {end_time-start_time:.4f} s")
+        # print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, AR takes {end_time-start_time:.4f} s")
 
         # If overlap_grad_reduce is False, start (and finish) synchronous communication call here.
         # if not self.ddp_config.overlap_grad_reduce:
