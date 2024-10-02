@@ -40,9 +40,9 @@ from .utils import VocabUtility, divide
 
 dfccl_path = os.environ.get("PD_PATH", '/workspace/Megatron-LM/dev/py_dfccl')
 # dfccl_path = '/workspace/Megatron-LM/dev/py_dfccl'
-# sys.path.append(dfccl_path)
-# from dfccl_wrapper import DfcclWrapper
-# import dfccl_wrapper
+sys.path.append(dfccl_path)
+from dfccl_wrapper import DfcclWrapper
+import dfccl_wrapper
 
 _grad_accum_fusion_available = True
 try:

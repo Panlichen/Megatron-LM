@@ -15,9 +15,9 @@ from .distributed_data_parallel_config import DistributedDataParallelConfig
 # 添加包含 dfccl_wrapper 的目录到 Python 路径
 dfccl_path = os.environ.get("PD_PATH", '/workspace/Megatron-LM/dev/py_dfccl')
 # dfccl_path = '/workspace/Megatron-LM/dev/py_dfccl'
-# sys.path.append(dfccl_path)
-# from dfccl_wrapper import DfcclWrapper
-# import dfccl_wrapper
+sys.path.append(dfccl_path)
+from dfccl_wrapper import DfcclWrapper
+import dfccl_wrapper
 
 logger = logging.getLogger(__name__)
 
