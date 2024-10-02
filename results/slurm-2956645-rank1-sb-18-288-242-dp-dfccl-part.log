@@ -1,0 +1,793 @@
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launch.py:183: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use-env is set by default in torchrun.
+If your script expects `--local-rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[2024-10-02 21:46:56,569] torch.distributed.run: [WARNING] 
+[2024-10-02 21:46:56,569] torch.distributed.run: [WARNING] *****************************************
+[2024-10-02 21:46:56,569] torch.distributed.run: [WARNING] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+[2024-10-02 21:46:56,569] torch.distributed.run: [WARNING] *****************************************
+WARNING: TensorBoard writing requested but is not available (are you using PyTorch 1.1.0 or later?), no TensorBoard logs will be written.
+WARNING: one_logger package is required to enable e2e metrics tracking. please go to https://confluence.nvidia.com/display/MLWFO/Package+Repositories for details to install it
+[rank10]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank15]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank14]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank8]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank11]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank9]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank12]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank13]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+use_te: True, HAVE_TE: Trueuse_te: True, HAVE_TE: True
+
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: Trueuse_te: True, HAVE_TE: True
+
+use_te: True, HAVE_TE: True
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 1): 40644864
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 1): 40644864
+(min, max) time across ranks (ms):
+    load-checkpoint ................................: (1.69, 1.80)
+(min, max) time across ranks (ms):
+    model-and-optimizer-setup ......................: (1911.66, 1923.48)
+    train/valid/test-data-iterators-setup ..........: (484.39, 768.46)
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:711: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:711: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:711: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:711: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:711: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:711: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:711: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:711: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+global rank 12, local rank 4, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:684: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+global rank 13, local rank 5, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+TP USE NCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCLTP USE NCCL
+
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+ [2024-10-02 21:48:13] iteration        1/     200 | consumed samples:          288 | elapsed time per iteration (ms): 22777.4 | learning rate: 2.500000E-07 | global batch size:   288 | lm loss: 1.078421E+01 | loss scale: 1.0 | grad norm: 80.230 | number of skipped iterations:   0 | number of nan iterations:   0 |
+[Rank 8] (after 1 iterations) memory (MB) | allocated: 758.02197265625 | max allocated: 11657.13232421875 | reserved: 13724.0 | max reserved: 13724.0
+[Rank 9] (after 1 iterations) memory (MB) | allocated: 758.02197265625 | max allocated: 11656.13232421875 | reserved: 13640.0 | max reserved: 13640.0
+global rank 12, local rank 4, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2global rank 10, local rank 2, tp group rank 0/2
+
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2global rank 14, local rank 6, tp group rank 0/2
+
+global rank 8, local rank 0, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+TP USE NCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+ [2024-10-02 21:48:19] iteration        2/     200 | consumed samples:          576 | elapsed time per iteration (ms): 5702.6 | learning rate: 5.000000E-07 | global batch size:   288 | lm loss: 1.079508E+01 | loss scale: 1.0 | grad norm: 76.090 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2global rank 9, local rank 1, tp group rank 1/2
+
+global rank 14, local rank 6, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+TP USE NCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCLTP USE NCCL
+
+global rank 8, local rank 0, ddp group rank 0/4global rank 9, local rank 1, ddp group rank 0/4
+
+DP USE DFCCLDP USE DFCCL
+
+TP USE NCCLTP USE NCCL
+
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCLglobal rank 12, local rank 4, ddp group rank 2/4
+
+DP USE DFCCL
+ [2024-10-02 21:48:24] iteration        3/     200 | consumed samples:          864 | elapsed time per iteration (ms): 5644.0 | learning rate: 7.500000E-07 | global batch size:   288 | lm loss: 1.073472E+01 | loss scale: 1.0 | grad norm: 74.858 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 13, local rank 5, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2global rank 13, local rank 5, tp group rank 1/2
+
+global rank 15, local rank 7, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2global rank 11, local rank 3, tp group rank 1/2
+
+global rank 9, local rank 1, tp group rank 1/2global rank 8, local rank 0, tp group rank 0/2
+
+global rank 10, local rank 2, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+TP USE NCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCLTP USE NCCL
+
+global rank 13, local rank 5, ddp group rank 2/4global rank 12, local rank 4, ddp group rank 2/4
+
+DP USE DFCCLDP USE DFCCL
+
+TP USE NCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+ [2024-10-02 21:48:30] iteration        4/     200 | consumed samples:         1152 | elapsed time per iteration (ms): 5660.4 | learning rate: 1.000000E-06 | global batch size:   288 | lm loss: 1.056472E+01 | loss scale: 1.0 | grad norm: 78.653 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 13, local rank 5, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2global rank 13, local rank 5, tp group rank 1/2
+
+global rank 12, local rank 4, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2global rank 13, local rank 5, tp group rank 1/2
+
+global rank 8, local rank 0, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+TP USE NCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+ [2024-10-02 21:48:35] iteration        5/     200 | consumed samples:         1440 | elapsed time per iteration (ms): 5627.5 | learning rate: 1.250000E-06 | global batch size:   288 | lm loss: 1.038570E+01 | loss scale: 1.0 | grad norm: 73.839 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+TP USE NCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+ [2024-10-02 21:48:41] iteration        6/     200 | consumed samples:         1728 | elapsed time per iteration (ms): 5629.7 | learning rate: 1.500000E-06 | global batch size:   288 | lm loss: 1.011756E+01 | loss scale: 1.0 | grad norm: 71.030 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 15, local rank 7, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2global rank 11, local rank 3, tp group rank 1/2
+
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2global rank 11, local rank 3, tp group rank 1/2
+
+global rank 13, local rank 5, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2global rank 9, local rank 1, tp group rank 1/2
+
+TP USE NCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+ [2024-10-02 21:48:47] iteration        7/     200 | consumed samples:         2016 | elapsed time per iteration (ms): 5629.6 | learning rate: 1.750000E-06 | global batch size:   288 | lm loss: 9.785954E+00 | loss scale: 1.0 | grad norm: 67.998 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 13, local rank 5, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2global rank 10, local rank 2, tp group rank 0/2
+
+global rank 11, local rank 3, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+TP USE NCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+ [2024-10-02 21:48:52] iteration        8/     200 | consumed samples:         2304 | elapsed time per iteration (ms): 5671.6 | learning rate: 2.000000E-06 | global batch size:   288 | lm loss: 9.507243E+00 | loss scale: 1.0 | grad norm: 59.022 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 15, local rank 7, tp group rank 1/2global rank 9, local rank 1, tp group rank 1/2
+
+global rank 12, local rank 4, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2global rank 14, local rank 6, tp group rank 0/2
+
+global rank 9, local rank 1, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2global rank 15, local rank 7, tp group rank 1/2
+
+global rank 12, local rank 4, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+TP USE NCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE NCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE NCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE NCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+TP USE NCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+ [2024-10-02 21:48:58] iteration        9/     200 | consumed samples:         2592 | elapsed time per iteration (ms): 5624.1 | learning rate: 2.250000E-06 | global batch size:   288 | lm loss: 9.072063E+00 | loss scale: 1.0 | grad norm: 54.985 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2global rank 14, local rank 6, tp group rank 0/2
+
+global rank 8, local rank 0, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+[rank13]:[E ProcessGroupNCCL.cpp:523] [Rank 2] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=40, OpType=ALLREDUCE, NumelIn=2, NumelOut=2, Timeout(ms)=600000) ran for 600076 milliseconds before timing out.
+[rank15]:[E ProcessGroupNCCL.cpp:523] [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=40, OpType=ALLREDUCE, NumelIn=2, NumelOut=2, Timeout(ms)=600000) ran for 600813 milliseconds before timing out.
+[rank14]:[E ProcessGroupNCCL.cpp:523] [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=40, OpType=ALLREDUCE, NumelIn=2, NumelOut=2, Timeout(ms)=600000) ran for 600813 milliseconds before timing out.
+[rank15]:[E ProcessGroupNCCL.cpp:523] [Rank 1] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=1198, OpType=ALLREDUCE, NumelIn=14155776, NumelOut=14155776, Timeout(ms)=600000) ran for 601324 milliseconds before timing out.
+[rank13]:[E ProcessGroupNCCL.cpp:523] [Rank 1] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=1198, OpType=ALLREDUCE, NumelIn=14155776, NumelOut=14155776, Timeout(ms)=600000) ran for 601322 milliseconds before timing out.
+global rank 13, local rank 5, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+[rank13]:[E ProcessGroupNCCL.cpp:537] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank13]:[E ProcessGroupNCCL.cpp:543] To avoid data inconsistency, we are taking the entire process down.
+[rank13]:[E ProcessGroupNCCL.cpp:1182] [Rank 2] NCCL watchdog thread terminated with exception: [Rank 2] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=40, OpType=ALLREDUCE, NumelIn=2, NumelOut=2, Timeout(ms)=600000) ran for 600076 milliseconds before timing out.
+Exception raised from checkTimeout at ../torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:525 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x57 (0x2aeeed6ced87 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x1e6 (0x2aeebc0456e6 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::workCleanupLoop() + 0x19d (0x2aeebc048c3d in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x119 (0x2aeebc049839 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xdbbf4 (0x2aeea27afbf4 in /data/run01/scz1075/.conda/envs/torch221_cuda121/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x7ea5 (0x2aee9a775ea5 in /lib64/libpthread.so.0)
+frame #6: clone + 0x6d (0x2aee9b19196d in /lib64/libc.so.6)
+
+[rank15]:[E ProcessGroupNCCL.cpp:537] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank15]:[E ProcessGroupNCCL.cpp:543] To avoid data inconsistency, we are taking the entire process down.
+[rank15]:[E ProcessGroupNCCL.cpp:1182] [Rank 1] NCCL watchdog thread terminated with exception: [Rank 1] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=1198, OpType=ALLREDUCE, NumelIn=14155776, NumelOut=14155776, Timeout(ms)=600000) ran for 601324 milliseconds before timing out.
+Exception raised from checkTimeout at ../torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:525 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x57 (0x2b4b10e6fd87 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x1e6 (0x2b4adf7e66e6 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::workCleanupLoop() + 0x19d (0x2b4adf7e9c3d in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x119 (0x2b4adf7ea839 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xdbbf4 (0x2b4ac5f50bf4 in /data/run01/scz1075/.conda/envs/torch221_cuda121/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x7ea5 (0x2b4abdf16ea5 in /lib64/libpthread.so.0)
+frame #6: clone + 0x6d (0x2b4abe93296d in /lib64/libc.so.6)
+
+[rank15]:[E ProcessGroupNCCL.cpp:537] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank15]:[E ProcessGroupNCCL.cpp:543] To avoid data inconsistency, we are taking the entire process down.
+[rank15]:[E ProcessGroupNCCL.cpp:1182] [Rank 3] NCCL watchdog thread terminated with exception: [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=40, OpType=ALLREDUCE, NumelIn=2, NumelOut=2, Timeout(ms)=600000) ran for 600813 milliseconds before timing out.
+Exception raised from checkTimeout at ../torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:525 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x57 (0x2b4b10e6fd87 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x1e6 (0x2b4adf7e66e6 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::workCleanupLoop() + 0x19d (0x2b4adf7e9c3d in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x119 (0x2b4adf7ea839 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xdbbf4 (0x2b4ac5f50bf4 in /data/run01/scz1075/.conda/envs/torch221_cuda121/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x7ea5 (0x2b4abdf16ea5 in /lib64/libpthread.so.0)
+frame #6: clone + 0x6d (0x2b4abe93296d in /lib64/libc.so.6)
+
+[rank14]:[E ProcessGroupNCCL.cpp:523] [Rank 0] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=1198, OpType=ALLREDUCE, NumelIn=14155776, NumelOut=14155776, Timeout(ms)=600000) ran for 602031 milliseconds before timing out.
+global rank 14, local rank 6, tp group rank 0/2
+[rank14]:[E ProcessGroupNCCL.cpp:537] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank14]:[E ProcessGroupNCCL.cpp:543] To avoid data inconsistency, we are taking the entire process down.
+[rank14]:[E ProcessGroupNCCL.cpp:1182] [Rank 3] NCCL watchdog thread terminated with exception: [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=40, OpType=ALLREDUCE, NumelIn=2, NumelOut=2, Timeout(ms)=600000) ran for 600813 milliseconds before timing out.
+Exception raised from checkTimeout at ../torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:525 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x57 (0x2b760801fd87 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x1e6 (0x2b75d69966e6 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::workCleanupLoop() + 0x19d (0x2b75d6999c3d in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x119 (0x2b75d699a839 in /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xdbbf4 (0x2b75bd100bf4 in /data/run01/scz1075/.conda/envs/torch221_cuda121/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x7ea5 (0x2b75b50c6ea5 in /lib64/libpthread.so.0)
+frame #6: clone + 0x6d (0x2b75b5ae296d in /lib64/libc.so.6)
+
+[2024-10-02 21:59:02,228] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 23701 closing signal SIGTERM
+[2024-10-02 21:59:02,240] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 23702 closing signal SIGTERM
+[2024-10-02 21:59:02,263] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 23703 closing signal SIGTERM
+[2024-10-02 21:59:02,278] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 23704 closing signal SIGTERM
+[2024-10-02 21:59:02,289] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 23705 closing signal SIGTERM
+[2024-10-02 21:59:02,299] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 23706 closing signal SIGTERM
+[2024-10-02 21:59:14,488] torch.distributed.elastic.multiprocessing.api: [ERROR] failed (exitcode: -6) local_rank: 6 (pid: 23707) of binary: /HOME/scz1075/.conda/envs/torch221_cuda121/bin/python3
+Traceback (most recent call last):
+  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launch.py", line 198, in <module>
+    main()
+  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launch.py", line 194, in main
+    launch(args)
+  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launch.py", line 179, in launch
+    run(args)
+  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/run.py", line 803, in run
+    elastic_launch(
+  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 135, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 268, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+======================================================
+pretrain_gpt.py FAILED
+------------------------------------------------------
+Failures:
+[1]:
+  time      : 2024-10-02_21:59:02
+  host      : g0041.para.ai
+  rank      : 15 (local_rank: 7)
+  exitcode  : -6 (pid: 23708)
+  error_file: <N/A>
+  traceback : Signal 6 (SIGABRT) received by PID 23708
+------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2024-10-02_21:59:02
+  host      : g0041.para.ai
+  rank      : 14 (local_rank: 6)
+  exitcode  : -6 (pid: 23707)
+  error_file: <N/A>
+  traceback : Signal 6 (SIGABRT) received by PID 23707
+======================================================
+srun: error: g0041: task 0: Exited with exit code 1

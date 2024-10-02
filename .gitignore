@@ -4,7 +4,7 @@ build
 .coverage_*
 *.egg-info
 *~
-slurm*
+# slurm*
 logs
 .vscode
 local/
@@ -15,5 +15,6 @@ codeparrot_content_document/
 codeparrot_content_document*
 experiments/
 
-*.out*
+a.out
+a.out.bak
 llama2_tokenizer.model

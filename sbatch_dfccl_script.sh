@@ -1,8 +1,33 @@
-GPUS_PER_NODE=2
-export DP_DFCCL=0
-export TP_DFCCL=1
+#!/bin/bash
+#SBATCH --gpus=8
+#SBATCH -x g0048
+#SBATCH -x g0022
+#SBATCH -x g0032
+#SBATCH -x g0033
+module purge
+module load anaconda/2021.05 cuda/12.1 gcc/11.2 cudnn/8.9.6_cuda12.x
+
+module load cmake/3.22.0
+
+source activate torch221_cuda121
+
+
+
+
+GPUS_PER_NODE=8
+export DP_DFCCL=1
+export TP_DFCCL=0
 export PD_PATH=/HOME/scz1075/run/Megatron-LM/dev/py_dfccl
 export PYTHONPATH=/HOME/scz1075/run/Megatron-LM:$PYTHONPATH
+
+# 无tp和pp
+MICRO_BATCH_SIZE=8
+GLOBAL_BATCH_SIZE=64
+
+# 222
+# MICRO_BATCH_SIZE=18
+# GLOBAL_BATCH_SIZE=288
+
 MASTER_ADDR=localhost
 MASTER_PORT=6001
 NNODES=1
@@ -18,16 +43,16 @@ GPT_ARGS="--num-layers 12
 --num-attention-heads 12
 --seq-length 1024
 --max-position-embeddings 1024
---micro-batch-size 9
---global-batch-size 72
+--micro-batch-size $MICRO_BATCH_SIZE
+--global-batch-size $GLOBAL_BATCH_SIZE
 --lr 0.0005
---train-iters 50
+--train-iters 200
 --lr-decay-iters 150000
 --lr-decay-style cosine
 --lr-warmup-iters 2000
 --weight-decay .1
 --adam-beta2 .999
---log-interval 10
+--log-interval 1
 --save-interval 2000
 --eval-interval 200
 --eval-iters 10
@@ -37,7 +62,7 @@ rm -rf experiments
 python3 -m torch.distributed.launch $DISTRIBUTED_ARGS \
         pretrain_gpt.py \
         --no-async-tensor-model-parallel-allreduce \
-        --tensor-model-parallel-size 2 \
+        --tensor-model-parallel-size 1 \
         --pipeline-model-parallel-size 1 \
         $GPT_ARGS \
         --vocab-file $VOCAB_FILE \
@@ -45,4 +70,4 @@ python3 -m torch.distributed.launch $DISTRIBUTED_ARGS \
         --save $CHECKPOINT_PATH \
         --load $CHECKPOINT_PATH \
         --data-path $DATA_PATH \
-        $TENSORBOARD_ARGS > a.out 2>&1
+        $TENSORBOARD_ARGS
