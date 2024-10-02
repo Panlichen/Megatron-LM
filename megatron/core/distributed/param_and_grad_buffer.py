@@ -13,10 +13,11 @@ import torch
 from ..utils import log_on_each_pipeline_stage
 from .distributed_data_parallel_config import DistributedDataParallelConfig
 # 添加包含 dfccl_wrapper 的目录到 Python 路径
-dfccl_path = '/workspace/Megatron-LM/dev/py_dfccl'
-sys.path.append(dfccl_path)
-from dfccl_wrapper import DfcclWrapper
-import dfccl_wrapper
+dfccl_path = os.environ.get("PD_PATH", '/workspace/Megatron-LM/dev/py_dfccl')
+# dfccl_path = '/workspace/Megatron-LM/dev/py_dfccl'
+# sys.path.append(dfccl_path)
+# from dfccl_wrapper import DfcclWrapper
+# import dfccl_wrapper
 
 logger = logging.getLogger(__name__)
 
@@ -105,8 +106,10 @@ class Bucket:
         assert torch.cuda.current_device() == self.local_rank, f"当前CUDA设备 {torch.cuda.current_device()} 与local_rank {self.local_rank} 不匹配"
         # print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}/{self.group_id}, pid {os.getpid()},tensor type: {self.grad_data.dtype}, tensor size: {self.grad_data.nbytes}")
 
-        self.dfccl_ext = None
-        self.dfccl_wrapper = DfcclWrapper(self.global_rank, self.local_rank, -1, self.group_rank, self.group_size, self.data_parallel_group)
+        env_dp_dfccl = int(os.environ.get("DP_DFCCL", 0))
+        if env_dp_dfccl:
+            self.dfccl_ext = None
+            self.dfccl_wrapper = DfcclWrapper(self.global_rank, self.local_rank, -1, self.group_rank, self.group_size, self.data_parallel_group)
 
         self.reset()
 

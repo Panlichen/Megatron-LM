@@ -38,10 +38,11 @@ from .mappings import (
 from .random import get_cuda_rng_tracker, get_expert_parallel_rng_tracker_name
 from .utils import VocabUtility, divide
 
-dfccl_path = '/workspace/Megatron-LM/dev/py_dfccl'
-sys.path.append(dfccl_path)
-from dfccl_wrapper import DfcclWrapper
-import dfccl_wrapper
+dfccl_path = os.environ.get("PD_PATH", '/workspace/Megatron-LM/dev/py_dfccl')
+# dfccl_path = '/workspace/Megatron-LM/dev/py_dfccl'
+# sys.path.append(dfccl_path)
+# from dfccl_wrapper import DfcclWrapper
+# import dfccl_wrapper
 
 _grad_accum_fusion_available = True
 try:
