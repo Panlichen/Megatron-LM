@@ -1,7 +1,6 @@
 # Copyright (c) 2023, NVIDIA CORPORATION. All rights reserved.
 
 from typing import Optional
-
 from megatron.core.fusions.fused_bias_dropout import get_bias_dropout_add
 from megatron.core.tensor_parallel.layers import ColumnParallelLinear, RowParallelLinear
 from megatron.core.transformer.attention import SelfAttention, SelfAttentionSubmodules
@@ -26,6 +25,17 @@ try:
     HAVE_TE = True
 except ImportError:
     HAVE_TE = False
+
+# from megatron.core.transformer.custom_layers.transformer_engine import (
+#     TEColumnParallelGroupedLinear,
+#     TEDotProductAttention,
+#     TELayerNormColumnParallelLinear,
+#     TENorm,
+#     TERowParallelGroupedLinear,
+#     TERowParallelLinear,
+# )
+
+# HAVE_TE = True
 
 try:
     import apex  # pylint: disable=unused-import
@@ -140,7 +150,7 @@ def _get_mlp_module_spec(
     """Helper function to get module spec for MLP/MoE"""
     if num_experts is None:
         # Dense MLP w/ or w/o TE modules.
-        print(f"use_te:{use_te}, HAVE_TE: {HAVE_TE}")
+        print(f"use_te: {use_te}, HAVE_TE: {HAVE_TE}")
         return ModuleSpec(
             module=MLP,
             submodules=MLPSubmodules(
