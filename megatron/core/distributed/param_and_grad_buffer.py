@@ -209,6 +209,8 @@ class Bucket:
             # print(f"global rank {self.global_rank}, local rank {self.local_rank}, set_seen_all_tp_colls")
         else:
             print("TP USE NCCL")
+        
+        print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}")
 
         if env_dp_dfccl:
             print("DP USE DFCCL")

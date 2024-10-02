@@ -477,6 +477,8 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
             grad_output, total_input = prepare_input_tensors_for_wgrad_compute(
                 grad_output, total_input
             )
+        
+        print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}")
 
         if env_tp_dfccl:
 

@@ -140,6 +140,7 @@ def _get_mlp_module_spec(
     """Helper function to get module spec for MLP/MoE"""
     if num_experts is None:
         # Dense MLP w/ or w/o TE modules.
+        print(f"use_te:{use_te}, HAVE_TE: {HAVE_TE}")
         return ModuleSpec(
             module=MLP,
             submodules=MLPSubmodules(

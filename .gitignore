@@ -16,3 +16,4 @@ codeparrot_content_document*
 experiments/
 
 *.out
+llama2_tokenizer.model
