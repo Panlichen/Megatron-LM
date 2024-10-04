@@ -4,6 +4,8 @@
 #SBATCH --qos=gpugpu
 #SBATCH -x g0048
 #SBATCH -x g0022
+#SBATCH -x g0010
+#SBATCH -x g0015
 module purge
 module load anaconda/2021.05 cuda/12.1 gcc/11.2 cudnn/8.9.6_cuda12.x
 
@@ -29,7 +31,7 @@ done
 
 
 GPUS_PER_NODE=8
-export DP_DFCCL=1
+export DP_DFCCL=0
 export TP_DFCCL=0
 export PD_PATH=/HOME/scz1075/run/Megatron-LM/dev/py_dfccl
 export PYTHONPATH=/HOME/scz1075/run/Megatron-LM:$PYTHONPATH

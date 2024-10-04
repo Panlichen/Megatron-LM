@@ -15,18 +15,18 @@ source activate torch221_cuda121
 
 
 GPUS_PER_NODE=8
-export DP_DFCCL=1
+export DP_DFCCL=0
 export TP_DFCCL=0
 export PD_PATH=/HOME/scz1075/run/Megatron-LM/dev/py_dfccl
 export PYTHONPATH=/HOME/scz1075/run/Megatron-LM:$PYTHONPATH
 
 # 无tp和pp
-MICRO_BATCH_SIZE=8
-GLOBAL_BATCH_SIZE=64
+# MICRO_BATCH_SIZE=8
+# GLOBAL_BATCH_SIZE=64
 
 # 222
-# MICRO_BATCH_SIZE=18
-# GLOBAL_BATCH_SIZE=288
+MICRO_BATCH_SIZE=18
+GLOBAL_BATCH_SIZE=288
 
 MASTER_ADDR=localhost
 MASTER_PORT=6001
@@ -62,8 +62,8 @@ rm -rf experiments
 python3 -m torch.distributed.launch $DISTRIBUTED_ARGS \
         pretrain_gpt.py \
         --no-async-tensor-model-parallel-allreduce \
-        --tensor-model-parallel-size 1 \
-        --pipeline-model-parallel-size 1 \
+        --tensor-model-parallel-size 2 \
+        --pipeline-model-parallel-size 2 \
         $GPT_ARGS \
         --vocab-file $VOCAB_FILE \
         --merge-file $MERGE_FILE \
