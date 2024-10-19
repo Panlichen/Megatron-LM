@@ -46,7 +46,7 @@ GPT_ARGS="--num-layers 12
 --micro-batch-size $MICRO_BATCH_SIZE
 --global-batch-size $GLOBAL_BATCH_SIZE
 --lr 0.0005
---train-iters 200
+--train-iters 3
 --lr-decay-iters 150000
 --lr-decay-style cosine
 --lr-warmup-iters 2000

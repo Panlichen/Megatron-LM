@@ -233,6 +233,7 @@ class Bucket:
                 self.dfccl_wrapper.dfccl_finalize()
 
             self.dfccl_wrapper.call_dfccl_ar(coll_id=0, tensor=self.grad_data)
+            print(f"DP global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size},, COLL {0}, buffer size {self.grad_data.numel() * self.grad_data.element_size() / 1024} KB")
 
             before_wait_time = time.time()
             # print(f"global rank {self.global_rank}, local rank {self.local_rank}, ddp group rank {self.group_rank}/{self.data_parallel_world_size}, CALL AR takes {before_wait_time-start_time:.4f} s")

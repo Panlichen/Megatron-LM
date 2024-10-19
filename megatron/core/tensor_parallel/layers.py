@@ -497,7 +497,7 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
                 dfccl_wrapper.dfccl_wrapper_object.prepare_dfccl_ar(coll_id=coll_id, parallel_type="TP", tensor=grad_input)
 
             if dfccl_wrapper.get_seen_all_tp_colls() and not dfccl_wrapper.get_tp_already_call_finalize():
-                # print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, call dfccl_finalize")
+                print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, call dfccl_finalize, {coll_id + 1} colls")
                 dfccl_wrapper.dfccl_wrapper_object.dfccl_finalize()  # 发现seen_all_tp_colls是True了, 可以Finalize了, 只需要调用一次, 要保证仅仅调用一次
                 dfccl_wrapper.set_tp_already_call_finalize()
 
@@ -511,6 +511,7 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
                 if dfccl_wrapper.get_seen_all_tp_colls():
                     # print(f"global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, call_dfccl_ar for coll_id {coll_id}")
                     dfccl_wrapper.dfccl_wrapper_object.call_dfccl_ar(coll_id=coll_id, tensor=grad_input)
+                    print(f"TP global rank {global_rank}, local rank {local_rank}, tp group rank {group_rank}/{group_size}, COLL {coll_id}, buffer size {grad_input.numel() * grad_input.element_size() / 1024} KB")
                 else:
                     handle = torch.distributed.all_reduce(
                         grad_input, group=get_tensor_model_parallel_group(), async_op=True
