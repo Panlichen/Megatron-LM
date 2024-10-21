@@ -4,8 +4,9 @@
 #SBATCH -x g0022
 #SBATCH -x g0032
 #SBATCH -x g0033
+#SBATCH -x g0016,g0034,g0053,g0170,g0172
 module purge
-module load anaconda/2021.05 cuda/12.1 gcc/11.2 cudnn/8.9.6_cuda12.x
+module load anaconda/2021.05 cuda/12.1 gcc/12.2 cudnn/8.9.6_cuda12.x
 
 module load cmake/3.22.0
 
@@ -15,8 +16,8 @@ source activate torch221_cuda121
 
 
 GPUS_PER_NODE=8
-export DP_DFCCL=0
-export TP_DFCCL=0
+export DP_DFCCL=1
+export TP_DFCCL=1
 export PD_PATH=/HOME/scz1075/run/Megatron-LM/dev/py_dfccl
 export PYTHONPATH=/HOME/scz1075/run/Megatron-LM:$PYTHONPATH
 

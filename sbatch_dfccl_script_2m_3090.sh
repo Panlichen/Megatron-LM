@@ -31,8 +31,8 @@ done
 
 
 GPUS_PER_NODE=8
-export DP_DFCCL=0
-export TP_DFCCL=0
+export DP_DFCCL=1
+export TP_DFCCL=1
 export PD_PATH=/HOME/scz1075/run/Megatron-LM/dev/py_dfccl
 export PYTHONPATH=/HOME/scz1075/run/Megatron-LM:$PYTHONPATH
 TP_SIZE=2

@@ -1,0 +1,477 @@
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launch.py:183: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use-env is set by default in torchrun.
+If your script expects `--local-rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[2024-10-20 11:26:27,182] torch.distributed.run: [WARNING] 
+[2024-10-20 11:26:27,182] torch.distributed.run: [WARNING] *****************************************
+[2024-10-20 11:26:27,182] torch.distributed.run: [WARNING] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+[2024-10-20 11:26:27,182] torch.distributed.run: [WARNING] *****************************************
+WARNING: TensorBoard writing requested but is not available (are you using PyTorch 1.1.0 or later?), no TensorBoard logs will be written.
+WARNING: one_logger package is required to enable e2e metrics tracking. please go to https://confluence.nvidia.com/display/MLWFO/Package+Repositories for details to install it
+[rank11]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank13]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank14]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank12]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank15]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank9]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank10]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank8]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: True
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+  warnings.warn(
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 1): 40644864
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 1): 40644864
+(min, max) time across ranks (ms):
+    load-checkpoint ................................: (3.74, 12.89)
+(min, max) time across ranks (ms):
+    model-and-optimizer-setup ......................: (244964.45, 245360.99)
+    train/valid/test-data-iterators-setup ..........: (237.13, 494.68)
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:712: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:712: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:712: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:712: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:712: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:712: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:712: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:712: UserWarning: When using async grad allreduce it is recommended to set the environment variable CUDA_DEVICE_MAX_CONNECTIONS to 1 for maximum speedup
+  warnings.warn(
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+global rank 9, local rank 1, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2global rank 13, local rank 5, tp group rank 1/2
+
+global rank 9, local rank 1, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+global rank 10, local rank 2, tp group rank 0/2
+global rank 12, local rank 4, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2
+global rank 11, local rank 3, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 8, local rank 0, tp group rank 0/2
+TP USE DFCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+DP global rank 11, local rank 3, ddp group rank 1/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 15, local rank 7, ddp group rank 3/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 9, local rank 1, ddp group rank 0/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 13, local rank 5, ddp group rank 2/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 14, local rank 6, ddp group rank 3/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 10, local rank 2, ddp group rank 1/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 8, local rank 0, ddp group rank 0/4,, COLL 0, buffer size 158769.0 KBDP global rank 12, local rank 4, ddp group rank 2/4,, COLL 0, buffer size 158769.0 KB
+
+[Rank 9] (after 1 iterations) memory (MB) | allocated: 758.02197265625 | max allocated: 11657.13232421875 | reserved: 14054.0 | max reserved: 14054.0
+[Rank 8] (after 1 iterations) memory (MB) | allocated: 758.02197265625 | max allocated: 11657.13232421875 | reserved: 13888.0 | max reserved: 13888.0
+ [2024-10-20 11:31:35] iteration        1/       3 | consumed samples:          288 | elapsed time per iteration (ms): 35099.9 | learning rate: 2.500000E-07 | global batch size:   288 | lm loss: 1.078421E+01 | loss scale: 1.0 | grad norm: 80.230 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 15, local rank 7, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2, call dfccl_finalize, 1 colls
+global rank 9, local rank 1, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2, call dfccl_finalize, 1 colls
+global rank 13, local rank 5, tp group rank 1/2
+global rank 13, local rank 5, tp group rank 1/2, call dfccl_finalize, 1 colls
+global rank 11, local rank 3, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2, call dfccl_finalize, 1 colls
+global rank 14, local rank 6, tp group rank 0/2
+global rank 14, local rank 6, tp group rank 0/2, call dfccl_finalize, 1 colls
+global rank 8, local rank 0, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2, call dfccl_finalize, 1 collsglobal rank 12, local rank 4, tp group rank 0/2
+
+global rank 12, local rank 4, tp group rank 0/2, call dfccl_finalize, 1 colls
+global rank 10, local rank 2, tp group rank 0/2
+global rank 10, local rank 2, tp group rank 0/2, call dfccl_finalize, 1 colls
+TP global rank 9, local rank 1, tp group rank 1/2, COLL 0, buffer size 55296.0 KB
+TP global rank 13, local rank 5, tp group rank 1/2, COLL 0, buffer size 55296.0 KB
+TP global rank 11, local rank 3, tp group rank 1/2, COLL 0, buffer size 55296.0 KB
+TP global rank 8, local rank 0, tp group rank 0/2, COLL 0, buffer size 55296.0 KB
+TP global rank 12, local rank 4, tp group rank 0/2, COLL 0, buffer size 55296.0 KB
+TP global rank 10, local rank 2, tp group rank 0/2, COLL 0, buffer size 55296.0 KB
+TP global rank 15, local rank 7, tp group rank 1/2, COLL 0, buffer size 55296.0 KB
+TP global rank 14, local rank 6, tp group rank 0/2, COLL 0, buffer size 55296.0 KB
+global rank 9, local rank 1, tp group rank 1/2
+TP global rank 9, local rank 1, tp group rank 1/2, COLL 1, buffer size 55296.0 KB
+global rank 13, local rank 5, tp group rank 1/2
+TP global rank 13, local rank 5, tp group rank 1/2, COLL 1, buffer size 55296.0 KB
+global rank 11, local rank 3, tp group rank 1/2
+TP global rank 11, local rank 3, tp group rank 1/2, COLL 1, buffer size 55296.0 KB
+global rank 15, local rank 7, tp group rank 1/2
+global rank 12, local rank 4, tp group rank 0/2
+TP global rank 15, local rank 7, tp group rank 1/2, COLL 1, buffer size 55296.0 KB
+global rank 10, local rank 2, tp group rank 0/2
+TP global rank 12, local rank 4, tp group rank 0/2, COLL 1, buffer size 55296.0 KB
+TP global rank 10, local rank 2, tp group rank 0/2, COLL 1, buffer size 55296.0 KB
+global rank 8, local rank 0, tp group rank 0/2
+TP global rank 8, local rank 0, tp group rank 0/2, COLL 1, buffer size 55296.0 KB
+global rank 14, local rank 6, tp group rank 0/2
+TP global rank 14, local rank 6, tp group rank 0/2, COLL 1, buffer size 55296.0 KB
+global rank 9, local rank 1, tp group rank 1/2
+TP global rank 9, local rank 1, tp group rank 1/2, COLL 2, buffer size 55296.0 KB
+global rank 10, local rank 2, tp group rank 0/2
+TP global rank 10, local rank 2, tp group rank 0/2, COLL 2, buffer size 55296.0 KB
+global rank 12, local rank 4, tp group rank 0/2
+global rank 15, local rank 7, tp group rank 1/2
+global rank 11, local rank 3, tp group rank 1/2
+TP global rank 15, local rank 7, tp group rank 1/2, COLL 2, buffer size 55296.0 KB
+TP global rank 12, local rank 4, tp group rank 0/2, COLL 2, buffer size 55296.0 KB
+global rank 13, local rank 5, tp group rank 1/2
+TP global rank 13, local rank 5, tp group rank 1/2, COLL 2, buffer size 55296.0 KB
+TP global rank 11, local rank 3, tp group rank 1/2, COLL 2, buffer size 55296.0 KB
+global rank 8, local rank 0, tp group rank 0/2
+TP global rank 8, local rank 0, tp group rank 0/2, COLL 2, buffer size 55296.0 KB
+global rank 14, local rank 6, tp group rank 0/2
+TP global rank 14, local rank 6, tp group rank 0/2, COLL 2, buffer size 55296.0 KB
+global rank 13, local rank 5, tp group rank 1/2
+TP global rank 13, local rank 5, tp group rank 1/2, COLL 3, buffer size 55296.0 KB
+global rank 11, local rank 3, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+TP global rank 9, local rank 1, tp group rank 1/2, COLL 3, buffer size 55296.0 KBTP global rank 11, local rank 3, tp group rank 1/2, COLL 3, buffer size 55296.0 KB
+
+global rank 15, local rank 7, tp group rank 1/2
+TP global rank 15, local rank 7, tp group rank 1/2, COLL 3, buffer size 55296.0 KB
+global rank 12, local rank 4, tp group rank 0/2
+TP global rank 12, local rank 4, tp group rank 0/2, COLL 3, buffer size 55296.0 KB
+global rank 10, local rank 2, tp group rank 0/2
+TP global rank 10, local rank 2, tp group rank 0/2, COLL 3, buffer size 55296.0 KBglobal rank 14, local rank 6, tp group rank 0/2
+global rank 8, local rank 0, tp group rank 0/2
+TP global rank 14, local rank 6, tp group rank 0/2, COLL 3, buffer size 55296.0 KBTP global rank 8, local rank 0, tp group rank 0/2, COLL 3, buffer size 55296.0 KB
+
+
+TP USE DFCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+DP global rank 13, local rank 5, ddp group rank 2/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+DP global rank 12, local rank 4, ddp group rank 2/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+DP global rank 15, local rank 7, ddp group rank 3/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+DP global rank 14, local rank 6, ddp group rank 3/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+DP global rank 9, local rank 1, ddp group rank 0/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+TP USE DFCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+DP global rank 11, local rank 3, ddp group rank 1/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 8, local rank 0, ddp group rank 0/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 10, local rank 2, ddp group rank 1/4,, COLL 0, buffer size 158769.0 KB
+ [2024-10-20 11:33:01] iteration        2/       3 | consumed samples:          576 | elapsed time per iteration (ms): 85212.4 | learning rate: 5.000000E-07 | global batch size:   288 | lm loss: 1.079508E+01 | loss scale: 1.0 | grad norm: 76.090 | number of skipped iterations:   0 | number of nan iterations:   0 |
+global rank 12, local rank 4, tp group rank 0/2
+TP global rank 12, local rank 4, tp group rank 0/2, COLL 0, buffer size 55296.0 KB
+global rank 11, local rank 3, tp group rank 1/2
+TP global rank 11, local rank 3, tp group rank 1/2, COLL 0, buffer size 55296.0 KB
+global rank 14, local rank 6, tp group rank 0/2global rank 15, local rank 7, tp group rank 1/2
+
+global rank 8, local rank 0, tp group rank 0/2global rank 13, local rank 5, tp group rank 1/2global rank 10, local rank 2, tp group rank 0/2
+
+
+TP global rank 15, local rank 7, tp group rank 1/2, COLL 0, buffer size 55296.0 KB
+TP global rank 14, local rank 6, tp group rank 0/2, COLL 0, buffer size 55296.0 KB
+TP global rank 13, local rank 5, tp group rank 1/2, COLL 0, buffer size 55296.0 KB
+TP global rank 10, local rank 2, tp group rank 0/2, COLL 0, buffer size 55296.0 KB
+TP global rank 8, local rank 0, tp group rank 0/2, COLL 0, buffer size 55296.0 KB
+global rank 9, local rank 1, tp group rank 1/2
+TP global rank 9, local rank 1, tp group rank 1/2, COLL 0, buffer size 55296.0 KB
+global rank 10, local rank 2, tp group rank 0/2
+TP global rank 10, local rank 2, tp group rank 0/2, COLL 1, buffer size 55296.0 KB
+global rank 12, local rank 4, tp group rank 0/2
+global rank 13, local rank 5, tp group rank 1/2
+TP global rank 12, local rank 4, tp group rank 0/2, COLL 1, buffer size 55296.0 KB
+TP global rank 13, local rank 5, tp group rank 1/2, COLL 1, buffer size 55296.0 KB
+global rank 11, local rank 3, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+TP global rank 11, local rank 3, tp group rank 1/2, COLL 1, buffer size 55296.0 KB
+global rank 8, local rank 0, tp group rank 0/2
+TP global rank 15, local rank 7, tp group rank 1/2, COLL 1, buffer size 55296.0 KB
+TP global rank 8, local rank 0, tp group rank 0/2, COLL 1, buffer size 55296.0 KB
+global rank 9, local rank 1, tp group rank 1/2
+TP global rank 9, local rank 1, tp group rank 1/2, COLL 1, buffer size 55296.0 KB
+global rank 14, local rank 6, tp group rank 0/2
+TP global rank 14, local rank 6, tp group rank 0/2, COLL 1, buffer size 55296.0 KB
+global rank 13, local rank 5, tp group rank 1/2
+TP global rank 13, local rank 5, tp group rank 1/2, COLL 2, buffer size 55296.0 KB
+global rank 11, local rank 3, tp group rank 1/2global rank 8, local rank 0, tp group rank 0/2
+
+global rank 12, local rank 4, tp group rank 0/2
+TP global rank 11, local rank 3, tp group rank 1/2, COLL 2, buffer size 55296.0 KBTP global rank 8, local rank 0, tp group rank 0/2, COLL 2, buffer size 55296.0 KB
+
+TP global rank 12, local rank 4, tp group rank 0/2, COLL 2, buffer size 55296.0 KB
+global rank 15, local rank 7, tp group rank 1/2
+global rank 9, local rank 1, tp group rank 1/2
+TP global rank 15, local rank 7, tp group rank 1/2, COLL 2, buffer size 55296.0 KB
+global rank 14, local rank 6, tp group rank 0/2
+TP global rank 9, local rank 1, tp group rank 1/2, COLL 2, buffer size 55296.0 KBglobal rank 10, local rank 2, tp group rank 0/2
+
+TP global rank 14, local rank 6, tp group rank 0/2, COLL 2, buffer size 55296.0 KB
+TP global rank 10, local rank 2, tp group rank 0/2, COLL 2, buffer size 55296.0 KB
+global rank 11, local rank 3, tp group rank 1/2
+TP global rank 11, local rank 3, tp group rank 1/2, COLL 3, buffer size 55296.0 KB
+global rank 9, local rank 1, tp group rank 1/2
+global rank 15, local rank 7, tp group rank 1/2
+TP global rank 9, local rank 1, tp group rank 1/2, COLL 3, buffer size 55296.0 KB
+global rank 13, local rank 5, tp group rank 1/2
+TP global rank 15, local rank 7, tp group rank 1/2, COLL 3, buffer size 55296.0 KB
+TP global rank 13, local rank 5, tp group rank 1/2, COLL 3, buffer size 55296.0 KB
+global rank 12, local rank 4, tp group rank 0/2
+TP global rank 12, local rank 4, tp group rank 0/2, COLL 3, buffer size 55296.0 KB
+global rank 14, local rank 6, tp group rank 0/2global rank 8, local rank 0, tp group rank 0/2
+
+TP global rank 8, local rank 0, tp group rank 0/2, COLL 3, buffer size 55296.0 KB
+TP global rank 14, local rank 6, tp group rank 0/2, COLL 3, buffer size 55296.0 KB
+global rank 10, local rank 2, tp group rank 0/2
+TP global rank 10, local rank 2, tp group rank 0/2, COLL 3, buffer size 55296.0 KB
+TP USE DFCCL
+global rank 9, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 8, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+DP global rank 9, local rank 1, ddp group rank 0/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 8, local rank 0, ddp group rank 0/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+global rank 11, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+DP global rank 11, local rank 3, ddp group rank 1/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+global rank 10, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+DP global rank 10, local rank 2, ddp group rank 1/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+global rank 13, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+DP global rank 13, local rank 5, ddp group rank 2/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+global rank 12, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+DP global rank 12, local rank 4, ddp group rank 2/4,, COLL 0, buffer size 158769.0 KB
+TP USE DFCCL
+global rank 15, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 14, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+DP global rank 15, local rank 7, ddp group rank 3/4,, COLL 0, buffer size 158769.0 KB
+DP global rank 14, local rank 6, ddp group rank 3/4,, COLL 0, buffer size 158769.0 KB
+ [2024-10-20 11:34:36] iteration        3/       3 | consumed samples:          864 | elapsed time per iteration (ms): 95093.4 | learning rate: 7.500000E-07 | global batch size:   288 | lm loss: 1.073472E+01 | loss scale: 1.0 | grad norm: 74.858 | number of skipped iterations:   0 | number of nan iterations:   0 |
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/data/run01/scz1075/Megatron-LM/megatron/core/tensor_parallel/layers.py:685: UserWarning: async_grad_allreduce is deprecated, not in use anymore and will be fully removed with 0.10.0. Please use allreduce_dgrad instead.
+  warnings.warn(
+(min, max) time across ranks (ms):
+    evaluate .......................................: (526710.88, 541659.24)
+---------------------------------------------------------------------------------------------------------------
+ validation loss at iteration 3 on validation set | lm loss value: 1.055510E+01 | lm loss PPL: 3.837280E+04 | 
+---------------------------------------------------------------------------------------------------------------
+(min, max) time across ranks (ms):
+    evaluate .......................................: (501801.24, 505134.19)
+---------------------------------------------------------------------------------------------------------
+ validation loss at iteration 3 on test set | lm loss value: 1.056972E+01 | lm loss PPL: 3.893789E+04 | 
+---------------------------------------------------------------------------------------------------------
+pid: 44232, cudaDev: 3, group id: -1, group rank: 1, calling ofcclDestroy
+pid: 44233, cudaDev: 4, group id: -1, group rank: 2, calling ofcclDestroy
+pid: 44234, cudaDev: 5, group id: -1, group rank: 2, calling ofcclDestroy
+pid: 44236, cudaDev: 7, group id: -1, group rank: 3, calling ofcclDestroy
+pid: 44230, cudaDev: 1, group id: -1, group rank: 0, calling ofcclDestroy
+pid: 44231, cudaDev: 2, group id: -1, group rank: 1, calling ofcclDestroy
+pid: 44235, cudaDev: 6, group id: -1, group rank: 3, calling ofcclDestroy
+pid: 44229, cudaDev: 0, group id: -1, group rank: 0, calling ofcclDestroy
+pid: 44233, cudaDev: 4, group id: -1, group rank: 0, calling ofcclDestroy
+pid: 44236, cudaDev: 7, group id: -1, group rank: 1, calling ofcclDestroy
+pid: 44231, cudaDev: 2, group id: -1, group rank: 0, calling ofcclDestroy
+pid: 44230, cudaDev: 1, group id: -1, group rank: 1, calling ofcclDestroy
+pid: 44229, cudaDev: 0, group id: -1, group rank: 0, calling ofcclDestroy
+pid: 44232, cudaDev: 3, group id: -1, group rank: 1, calling ofcclDestroy
+pid: 44235, cudaDev: 6, group id: -1, group rank: 0, calling ofcclDestroy
+pid: 44234, cudaDev: 5, group id: -1, group rank: 1, calling ofcclDestroy

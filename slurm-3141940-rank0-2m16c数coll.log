@@ -7,11 +7,11 @@ https://pytorch.org/docs/stable/distributed.html#launch-utility for
 further instructions
 
   warnings.warn(
-[2024-10-19 17:31:37,336] torch.distributed.run: [WARNING] 
-[2024-10-19 17:31:37,336] torch.distributed.run: [WARNING] *****************************************
-[2024-10-19 17:31:37,336] torch.distributed.run: [WARNING] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
-[2024-10-19 17:31:37,336] torch.distributed.run: [WARNING] *****************************************
-using world size: 8, data-parallel size: 2, context-parallel size: 1, tensor-model-parallel size: 2, encoder-tensor-model-parallel size: 0, pipeline-model-parallel size: 2, encoder-pipeline-model-parallel size: 0
+[2024-10-20 11:26:27,185] torch.distributed.run: [WARNING] 
+[2024-10-20 11:26:27,185] torch.distributed.run: [WARNING] *****************************************
+[2024-10-20 11:26:27,185] torch.distributed.run: [WARNING] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+[2024-10-20 11:26:27,185] torch.distributed.run: [WARNING] *****************************************
+using world size: 16, data-parallel size: 4, context-parallel size: 1, tensor-model-parallel size: 2, encoder-tensor-model-parallel size: 0, pipeline-model-parallel size: 2, encoder-pipeline-model-parallel size: 0
 WARNING: Please specify --split when using --data-path. Using legacy default value of "969, 30, 1"
 WARNING: Setting args.overlap_p2p_comm to False since non-interleaved schedule does not support overlapping p2p communication
 using torch.float32 for parameters ...
@@ -72,7 +72,7 @@ using torch.float32 for parameters ...
   cross_entropy_loss_fusion ....................... False
   data_cache_path ................................. None
   data_parallel_random_init ....................... False
-  data_parallel_size .............................. 2
+  data_parallel_size .............................. 4
   data_path ....................................... ['codeparrot_content_document']
   data_per_class_fraction ......................... 1.0
   data_sharding ................................... True
@@ -359,14 +359,12 @@ using torch.float32 for parameters ...
   weight_decay .................................... 0.1
   weight_decay_incr_style ......................... constant
   wgrad_deferral_limit ............................ 0
-  world_size ...................................... 8
+  world_size ...................................... 16
   yaml_cfg ........................................ None
 -------------------- end of arguments ---------------------
 > building GPT2BPETokenizer tokenizer ...
  > padded vocab (size: 50257) with 175 dummy tokens (new size: 50432)
 > initializing torch distributed ...
-WARNING: TensorBoard writing requested but is not available (are you using PyTorch 1.1.0 or later?), no TensorBoard logs will be written.
-WARNING: one_logger package is required to enable e2e metrics tracking. please go to https://confluence.nvidia.com/display/MLWFO/Package+Repositories for details to install it
 > initialized tensor model parallel with size 2
 > initialized pipeline model parallel with size 2
 > setting random seeds to 1234 ...
@@ -374,10 +372,10 @@ WARNING: one_logger package is required to enable e2e metrics tracking. please g
 make: Entering directory `/data/run01/scz1075/Megatron-LM/megatron/core/datasets'
 make: Nothing to be done for `default'.
 make: Leaving directory `/data/run01/scz1075/Megatron-LM/megatron/core/datasets'
->>> done with dataset index builder. Compilation time: 0.186 seconds
+>>> done with dataset index builder. Compilation time: 0.138 seconds
 WARNING: constraints for invoking optimized fused softmax kernel are not met. We default back to unfused kernel invocations.
 > compiling and loading fused kernels ...
->>> done with compiling and loading fused kernels. Compilation time: 0.973 seconds
+>>> done with compiling and loading fused kernels. Compilation time: 0.836 seconds
 Parameters: type(args): <class 'argparse.Namespace'>
 num_layers: 12
 encoder_num_layers: 12
@@ -441,23 +439,23 @@ tp_comm_bulk_dgrad: True
 tp_comm_bulk_wgrad: True
 use_cpu_initialization: None
 empty_unused_memory_level: 0
-[rank5]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
-deterministic_mode: False[rank6]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
-
-[rank3]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
-check_weight_hash_across_dp_replicas_interval: None[rank4]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
-
-[rank1]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+deterministic_mode: False
+check_weight_hash_across_dp_replicas_interval: None
 calculate_per_token_loss: False
-[rank7]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
-train_sync_interval: None[rank2]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
-
+train_sync_interval: None
 train_iters: 3
 train_samples: None
 log_interval: 1
 exit_interval: None
 exit_duration_in_mins: None
-exit_signal_handler: False
+exit_signal_handler: False[rank7]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank3]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank2]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+
+[rank4]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank6]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank5]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
+[rank1]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
 tensorboard_dir: experiments/tensorboard
 masked_softmax_fusion: True
 bias_gelu_fusion: True
@@ -721,10 +719,10 @@ app_tag_run_version: 0.0.0
 enable_ft_package: False
 config_logger_dir: 
 rank: 0
-world_size: 8
+world_size: 16
 use_dist_ckpt: True
 transformer_pipeline_model_parallel_size: 2
-data_parallel_size: 2
+data_parallel_size: 4
 virtual_pipeline_model_parallel_size: None
 params_dtype: torch.float32
 consumed_train_samples: 0
@@ -734,17 +732,17 @@ variable_seq_lengths: False
 padded_vocab_size: 50432
 Parameters Done
 [rank0]:[W init.cpp:767] Warning: nvfuser is no longer supported in torch script, use _jit_set_nvfuser_enabled is deprecated and a no-op (function operator())
-time to initialize megatron (seconds): 19.197
-[after megatron is initialized] datetime: 2024-10-19 17:32:23 
+time to initialize megatron (seconds): 11.010
+[after megatron is initialized] datetime: 2024-10-20 11:26:54 
 building GPT model ...
-use_te: True, HAVE_TE: Trueuse_te: True, HAVE_TE: Trueuse_te: True, HAVE_TE: Trueuse_te: True, HAVE_TE: Trueuse_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: Trueuse_te: True, HAVE_TE: True
 use_te: True, HAVE_TE: True
 use_te: True, HAVE_TE: True
+
 use_te: True, HAVE_TE: True
+use_te: True, HAVE_TE: Trueuse_te: True, HAVE_TE: True
 
-
-
-
+use_te: True, HAVE_TE: True
 /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
   warnings.warn(
 /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
@@ -777,86 +775,206 @@ use_te: True, HAVE_TE: True
   warnings.warn(
 /HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/module/base.py:710: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
   warnings.warn(
- > number of parameters on (tensor, pipeline) model parallel rank (0, 0): 41429760
- > number of parameters on (tensor, pipeline) model parallel rank (0, 1): 40644864
- > number of parameters on (tensor, pipeline) model parallel rank (1, 1): 40644864
  > number of parameters on (tensor, pipeline) model parallel rank (1, 0): 41429760
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 0): 41429760
 wrap_with_ddp: True
 WARNING: could not find the metadata file /HOME/scz1075/run/Megatron-LM/experiments/codeparrot-small/latest_checkpointed_iteration.txt
     will not load any checkpoints and will start from random
-(min, max) time across ranks (ms):
-    load-checkpoint ................................: (1.19, 1.27)
-[after model, optimizer, and learning rate scheduler are built] datetime: 2024-10-19 17:32:23 
+[after model, optimizer, and learning rate scheduler are built] datetime: 2024-10-20 11:31:00 
 > building train, validation, and test datasets ...
  > datasets target sizes (minimum size):
     train:      864
     validation: 2880
     test:       2880
 > building train, validation, and test datasets for GPT ...
-Traceback (most recent call last):
-  File "/data/run01/scz1075/Megatron-LM/pretrain_gpt.py", line 248, in <module>
-    pretrain(
-  File "/data/run01/scz1075/Megatron-LM/megatron/training/training.py", line 304, in pretrain
-    = build_train_valid_test_data_iterators(
-  File "/data/run01/scz1075/Megatron-LM/megatron/training/training.py", line 1656, in build_train_valid_test_data_iterators
-    build_train_valid_test_data_loaders(
-  File "/data/run01/scz1075/Megatron-LM/megatron/training/training.py", line 1617, in build_train_valid_test_data_loaders
-    train_ds, valid_ds, test_ds = build_train_valid_test_datasets(
-  File "/data/run01/scz1075/Megatron-LM/megatron/training/training.py", line 1587, in build_train_valid_test_datasets
-    return build_train_valid_test_datasets_provider(train_valid_test_num_samples)
-  File "/data/run01/scz1075/Megatron-LM/pretrain_gpt.py", line 236, in train_valid_test_datasets_provider
-    ).build()
-  File "/data/run01/scz1075/Megatron-LM/megatron/core/datasets/blended_megatron_dataset_builder.py", line 126, in build
-    datasets = self._build_blended_dataset_splits()
-  File "/data/run01/scz1075/Megatron-LM/megatron/core/datasets/blended_megatron_dataset_builder.py", line 191, in _build_blended_dataset_splits
-    return self._build_megatron_dataset_splits(prefixes[0], split, self.sizes)
-  File "/data/run01/scz1075/Megatron-LM/megatron/core/datasets/blended_megatron_dataset_builder.py", line 437, in _build_megatron_dataset_splits
-    self.build_generic_dataset(
-  File "/data/run01/scz1075/Megatron-LM/megatron/core/datasets/blended_megatron_dataset_builder.py", line 485, in build_generic_dataset
-    dataset = cls(*args)
-  File "/data/run01/scz1075/Megatron-LM/megatron/core/datasets/gpt_dataset.py", line 112, in __init__
-    self._build_document_sample_shuffle_indices()
-  File "/data/run01/scz1075/Megatron-LM/megatron/core/datasets/gpt_dataset.py", line 420, in _build_document_sample_shuffle_indices
-    from megatron.core.datasets import helpers
-ImportError: /lib64/libc.so.6: version `GLIBC_2.32' not found (required by /data/run01/scz1075/Megatron-LM/megatron/core/datasets/helpers.cpython-310-x86_64-linux-gnu.so)
-[2024-10-19 17:32:27,400] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 1072 closing signal SIGTERM
-[2024-10-19 17:32:27,404] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 1073 closing signal SIGTERM
-[2024-10-19 17:32:27,405] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 1074 closing signal SIGTERM
-[2024-10-19 17:32:27,418] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 1075 closing signal SIGTERM
-[2024-10-19 17:32:27,429] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 1076 closing signal SIGTERM
-[2024-10-19 17:32:27,443] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 1077 closing signal SIGTERM
-[2024-10-19 17:32:27,456] torch.distributed.elastic.multiprocessing.api: [WARNING] Sending process 1078 closing signal SIGTERM
-[2024-10-19 17:32:27,904] torch.distributed.elastic.multiprocessing.api: [ERROR] failed (exitcode: 1) local_rank: 0 (pid: 1071) of binary: /HOME/scz1075/.conda/envs/torch221_cuda121/bin/python3
-Traceback (most recent call last):
-  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/runpy.py", line 196, in _run_module_as_main
-    return _run_code(code, main_globals, None,
-  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/runpy.py", line 86, in _run_code
-    exec(code, run_globals)
-  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launch.py", line 198, in <module>
-    main()
-  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launch.py", line 194, in main
-    launch(args)
-  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launch.py", line 179, in launch
-    run(args)
-  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/run.py", line 803, in run
-    elastic_launch(
-  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 135, in __call__
-    return launch_agent(self._config, self._entrypoint, list(args))
-  File "/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 268, in launch_agent
-    raise ChildFailedError(
-torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
-============================================================
-pretrain_gpt.py FAILED
-------------------------------------------------------------
-Failures:
-  <NO_OTHER_FAILURES>
-------------------------------------------------------------
-Root Cause (first observed failure):
-[0]:
-  time      : 2024-10-19_17:32:27
-  host      : g0031.para.ai
-  rank      : 0 (local_rank: 0)
-  exitcode  : 1 (pid: 1071)
-  error_file: <N/A>
-  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
-============================================================
+> finished creating GPT datasets ...
+[after dataloaders are built] datetime: 2024-10-20 11:31:00 
+done with setup ...
+training ...
+[before the start of training step] datetime: 2024-10-20 11:31:00 
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+TP USE DFCCL
+global rank 4, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 7, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 2, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 5, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 3, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 1, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 6, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+TP USE DFCCL
+global rank 0, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+DP global rank 0, local rank 0, ddp group rank 0/4,, COLL 0, buffer size 161835.0 KB
+DP global rank 6, local rank 6, ddp group rank 3/4,, COLL 0, buffer size 161835.0 KB
+DP global rank 4, local rank 4, ddp group rank 2/4,, COLL 0, buffer size 161835.0 KB
+DP global rank 2, local rank 2, ddp group rank 1/4,, COLL 0, buffer size 161835.0 KB
+DP global rank 1, local rank 1, ddp group rank 0/4,, COLL 0, buffer size 161835.0 KB
+DP global rank 7, local rank 7, ddp group rank 3/4,, COLL 0, buffer size 161835.0 KB
+DP global rank 5, local rank 5, ddp group rank 2/4,, COLL 0, buffer size 161835.0 KB
+DP global rank 3, local rank 3, ddp group rank 1/4,, COLL 0, buffer size 161835.0 KB
+Number of parameters in transformer layers in billions:  0.08
+Number of parameters in embedding layers in billions: 0.04
+Total number of parameters in billions: 0.12
+Number of parameters in most loaded shard in billions: 0.0406
+Number of parameters in other shards in billions: 0.0212
+Theoretical memory footprints: weight and optimizer=697.10 MB
+[Rank 1] (after 1 iterations) memory (MB) | allocated: 660.00341796875 | max allocated: 19370.701171875 | reserved: 21496.0 | max reserved: 21496.0
+[Rank 0] (after 1 iterations) memory (MB) | allocated: 659.00341796875 | max allocated: 19367.701171875 | reserved: 21762.0 | max reserved: 21762.0
+TP USE DFCCL
+global rank 5, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+DP global rank 5, local rank 5, ddp group rank 2/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 4, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+DP global rank 4, local rank 4, ddp group rank 2/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 7, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+DP global rank 7, local rank 7, ddp group rank 3/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 6, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+DP global rank 6, local rank 6, ddp group rank 3/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 0, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+DP global rank 0, local rank 0, ddp group rank 0/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 3, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+DP global rank 3, local rank 3, ddp group rank 1/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 1, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+DP global rank 1, local rank 1, ddp group rank 0/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 2, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+DP global rank 2, local rank 2, ddp group rank 1/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 0, local rank 0, ddp group rank 0/4
+DP USE DFCCL
+DP global rank 0, local rank 0, ddp group rank 0/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 1, local rank 1, ddp group rank 0/4
+DP USE DFCCL
+DP global rank 1, local rank 1, ddp group rank 0/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 3, local rank 3, ddp group rank 1/4
+DP USE DFCCL
+DP global rank 3, local rank 3, ddp group rank 1/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 2, local rank 2, ddp group rank 1/4
+DP USE DFCCL
+DP global rank 2, local rank 2, ddp group rank 1/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 4, local rank 4, ddp group rank 2/4
+DP USE DFCCL
+DP global rank 4, local rank 4, ddp group rank 2/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 5, local rank 5, ddp group rank 2/4
+DP USE DFCCL
+DP global rank 5, local rank 5, ddp group rank 2/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 7, local rank 7, ddp group rank 3/4
+DP USE DFCCL
+DP global rank 7, local rank 7, ddp group rank 3/4,, COLL 0, buffer size 161835.0 KB
+TP USE DFCCL
+global rank 6, local rank 6, ddp group rank 3/4
+DP USE DFCCL
+DP global rank 6, local rank 6, ddp group rank 3/4,, COLL 0, buffer size 161835.0 KB
+[after training is done] datetime: 2024-10-20 11:34:36 
+saving checkpoint at iteration       3 to /HOME/scz1075/run/Megatron-LM/experiments/codeparrot-small in torch_dist format
+2024-10-20 11:34:36,547 _dedup_tensors.py:44 INFO p:MainProcess t:MainThread: Duplicate keys to remove: {}
+  successfully saved checkpoint from iteration       3 to /HOME/scz1075/run/Megatron-LM/experiments/codeparrot-small
+Evaluating on 2880 samples
+Evaluating iter 1/10
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+/HOME/scz1075/.conda/envs/torch221_cuda121/lib/python3.10/site-packages/transformer_engine/pytorch/attention.py:3051: UserWarning: window_size should be (-1, 0) or (>=0, 0) for attn_mask_type=causal
+  warnings.warn(
+Evaluating iter 2/10
+Evaluating iter 3/10
+Evaluating iter 4/10
+Evaluating iter 5/10
+Evaluating iter 6/10
+Evaluating iter 7/10
+Evaluating iter 8/10
+Evaluating iter 9/10
+Evaluating iter 10/10
+Evaluating on 2880 samples
+Evaluating iter 1/10
+Evaluating iter 2/10
+Evaluating iter 3/10
+Evaluating iter 4/10
+Evaluating iter 5/10
+Evaluating iter 6/10
+Evaluating iter 7/10
+Evaluating iter 8/10
+Evaluating iter 9/10
+Evaluating iter 10/10
+pid: 129734, cudaDev: 1, group id: -1, group rank: 0, calling ofcclDestroy
+pid: 129740, cudaDev: 7, group id: -1, group rank: 3, calling ofcclDestroy
+pid: 129736, cudaDev: 3, group id: -1, group rank: 1, calling ofcclDestroy
+pid: 129733, cudaDev: 0, group id: -1, group rank: 0, calling ofcclDestroy
+pid: 129738, cudaDev: 5, group id: -1, group rank: 2, calling ofcclDestroy
+pid: 129739, cudaDev: 6, group id: -1, group rank: 3, calling ofcclDestroy
+pid: 129735, cudaDev: 2, group id: -1, group rank: 1, calling ofcclDestroy
+pid: 129737, cudaDev: 4, group id: -1, group rank: 2, calling ofcclDestroy
